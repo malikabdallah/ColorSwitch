@@ -2,17 +2,32 @@ package model;
 
 import constantes.Constantes;
 import controller.Controller;
+import model.obstacles.Square;
 import model.threads.FallingBall;
 import model.threads.JumpingBall;
+import model.threads.ObstacleMoving;
 
 import java.awt.*;
 
 public class GameManager {
 
     private Controller controller;
+
+
+    private Square square;
+
+    public Square getSquare() {
+        return square;
+    }
+
+    public void setSquare(Square square) {
+        this.square = square;
+    }
+
     public GameManager(Controller controller) {
         this.run=true;
         this.controller=controller;
+        square=new Square(0,100,200,300,200);
     }
 
     // coordonn�es de d�part pour les variables x et y de la balle
@@ -24,6 +39,15 @@ public class GameManager {
 
     private Thread fallingBall;
     private Thread jumpingBall;
+    private Thread obstacleMoving;
+
+    public Thread getObstacleMoving() {
+        return obstacleMoving;
+    }
+
+    public void setObstacleMoving(Thread obstacleMoving) {
+        this.obstacleMoving = obstacleMoving;
+    }
 
     public Thread getFallingBall() {
         return fallingBall;
@@ -93,5 +117,11 @@ public class GameManager {
 
     public void setController(Controller controller) {
         this.controller=controller;
+    }
+
+    public void objectStartMoving() {
+        this.obstacleMoving=new Thread(new ObstacleMoving(controller));
+        this.obstacleMoving.start();
+
     }
 }

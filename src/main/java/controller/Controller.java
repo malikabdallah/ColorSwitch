@@ -24,6 +24,7 @@ public class Controller implements MouseListener, KeyListener {
         frame=new FrameGame(panel);
         gameManager.setController(this);
         gameManager.startFallingBall();
+        gameManager.objectStartMoving();
         frame.addKeyListener(this);
     }
 
@@ -41,7 +42,6 @@ public class Controller implements MouseListener, KeyListener {
     public void keyPressed(KeyEvent e) {
 
 
-        System.out.println("key pressed");
         if (gameManager.isRun()) {
 
             panel.monter();
@@ -52,7 +52,6 @@ public class Controller implements MouseListener, KeyListener {
 
     @Override
     public void keyReleased(KeyEvent e) {
-        System.out.println("key released");
         if (gameManager.isRun()) {
             //gameManager.setStarted(true);
             panel.descendre();

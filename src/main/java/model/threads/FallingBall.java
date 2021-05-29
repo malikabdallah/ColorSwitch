@@ -18,16 +18,6 @@ public class FallingBall implements Runnable {
         for (int i = controller.getGameManager().getOrdonnesJoeur(); i < 540; i++) {
             controller.getGameManager().setAbsiceJoueur(controller.getGameManager().getAbsiceJoueur());
             controller.getGameManager().setOrdonnesJoeur(i);
-            /*
-            exe.collision();
-            exe.collision_ligne();
-            exe.collision_multi_ligne();
-            exe.collisionCroix();
-            exe.collisionCarre();
-            exe.changeCouleur();
-
-             */
-
             controller.getPan().repaint();
             try {
 

@@ -3,15 +3,16 @@ package view;
 import com.sun.corba.se.impl.orbutil.closure.Constant;
 import constantes.Constantes;
 import controller.Controller;
+import model.obstacles.Circle;
+import model.obstacles.Line;
+import model.obstacles.Square;
 import model.threads.FallingBall;
 import model.threads.JumpingBall;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Observable;
-import java.util.Observer;
 
-public class PanelGame extends JPanel implements Observer {
+public class PanelGame extends JPanel implements Drawer {
 
     private JLabel label = new JLabel("Score: 0");
     private Controller controller;
@@ -36,18 +37,36 @@ public class PanelGame extends JPanel implements Observer {
         g.setColor(Constantes.COLOR_BLACK);
         g.fillRect(0, 0, this.getWidth(), this.getHeight());
 
+
+        this.drawLineObstacle(g);
+
         // On red�finit une couleur pour le rond
         g.setColor(this.controller.getGameManager().getCouleur());
         // On le dessine aux coordonn�es souhait�es
         g.fillOval(this.controller.getGameManager().getAbsiceJoueur(),
-                this.controller.getGameManager().getOrdonnesJoeur(), 25, 25);
+                this.controller.getGameManager().getOrdonnesJoeur(), 20, 20);
 
     }
 
-    @Override
-    public void update(Observable o, Object arg) {
+    private void drawLineObstacle(Graphics g) {
+
+        //on dessine la premiere ligne color de la double ligne
+        g.setColor(Constantes.COLOR_TURQUOISE);
+        g.fill3DRect(this.controller.getGameManager().getSquare().getFirstRectangleX(),
+                controller.getGameManager().getSquare().getSquareY(), 120, 10, true);
+        g.setColor(Constantes.COLOR_YELLOW);
+        g.fill3DRect(this.controller.getGameManager().getSquare().getSecondRectangleX(),
+                controller.getGameManager().getSquare().getSquareY(), 120, 10, true);
+        g.setColor(Constantes.COLOR_PINK);
+        g.fill3DRect(this.controller.getGameManager().getSquare().getThirdRectangleX(),
+                controller.getGameManager().getSquare().getSquareY(), 120, 10, true);
+        g.setColor(Constantes.COLOR_VIOLET);
+        g.fill3DRect(this.controller.getGameManager().getSquare().getFourthRectangleX(),
+                controller.getGameManager().getSquare().getSquareY(), 120, 10, true);
 
     }
+
+
 
     public void monter() {
         if (this.controller.getGameManager().getFallingBall().isAlive()) {
@@ -68,6 +87,21 @@ public class PanelGame extends JPanel implements Observer {
 
         this.controller.getGameManager().setFallingBall(new Thread(new FallingBall( this.controller)));
         this.controller.getGameManager().getFallingBall().start();
+
+    }
+
+    @Override
+    public void drawLineObstacle(Graphics g, Line l) {
+
+    }
+
+    @Override
+    public void drawCircleObstacle(Graphics g, Circle c) {
+
+    }
+
+    @Override
+    public void drawSquareObstacle(Graphics g, Square s) {
 
     }
 }
