@@ -1,0 +1,6 @@
+view\PanelGame.class
+controller\Controller.class
+main\Main.class
+view\FrameGame.class
+model\GameManager.class
+constantes\Constantes.class

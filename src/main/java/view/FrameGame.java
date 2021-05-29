@@ -2,7 +2,7 @@ package view;
 
 import javax.swing.*;
 
-public class Frame extends JFrame {
+public class FrameGame extends JFrame {
 
     //permet a la fenetre de connaitre le modele
     //private Executeur exe;
@@ -11,7 +11,7 @@ public class Frame extends JFrame {
     //private Controlleur cont;
 
 
-    public Frame() {
+    public FrameGame(PanelGame panel) {
 
         //definit le titre de la fenetre
         this.setTitle("Switch color v2.0");
@@ -30,7 +30,7 @@ public class Frame extends JFrame {
 
 
         //    //On prévient notre JFrame que notre JPanel sera son content pane
-        this.setContentPane(new JPanel());
+        this.setContentPane(panel);
 
         //rend notre fenetre visible
         this.setVisible(true);
