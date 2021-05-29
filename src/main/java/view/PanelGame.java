@@ -3,6 +3,8 @@ package view;
 import com.sun.corba.se.impl.orbutil.closure.Constant;
 import constantes.Constantes;
 import controller.Controller;
+import model.threads.FallingBall;
+import model.threads.JumpingBall;
 
 import javax.swing.*;
 import java.awt.*;
@@ -38,12 +40,34 @@ public class PanelGame extends JPanel implements Observer {
         g.setColor(this.controller.getGameManager().getCouleur());
         // On le dessine aux coordonn�es souhait�es
         g.fillOval(this.controller.getGameManager().getAbsiceJoueur(),
-                this.controller.getGameManager().getOrdonnesJoeur(), 15, 15);
+                this.controller.getGameManager().getOrdonnesJoeur(), 25, 25);
 
     }
 
     @Override
     public void update(Observable o, Object arg) {
+
+    }
+
+    public void monter() {
+        if (this.controller.getGameManager().getFallingBall().isAlive()) {
+            this.controller.getGameManager().getFallingBall().stop();
+        }else{
+        }
+
+        this.controller.getGameManager().setJumpingBall(new Thread(new JumpingBall( this.controller)));
+        this.controller.getGameManager().getJumpingBall().start();
+
+    }
+
+    public void descendre() {
+        if (this.controller.getGameManager().getFallingBall().isAlive()) {
+            this.controller.getGameManager().getFallingBall().stop();
+        }else{
+        }
+
+        this.controller.getGameManager().setFallingBall(new Thread(new FallingBall( this.controller)));
+        this.controller.getGameManager().getFallingBall().start();
 
     }
 }

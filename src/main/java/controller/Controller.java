@@ -1,5 +1,6 @@
 package controller;
 
+import javafx.scene.layout.Pane;
 import model.GameManager;
 import view.FrameGame;
 import view.PanelGame;
@@ -14,13 +15,16 @@ import java.awt.event.MouseListener;
 public class Controller implements MouseListener, KeyListener {
 
     FrameGame frame;
-    JPanel panel;
+    PanelGame panel;
     GameManager gameManager;
     public Controller() {
-        gameManager=new GameManager();
-        System.out.println(" couleur "+gameManager.getCouleur().toString());
-        PanelGame panel=new PanelGame(this);
+        panel=new PanelGame(this);
+
+        gameManager=new GameManager(this);
         frame=new FrameGame(panel);
+        gameManager.setController(this);
+        gameManager.startFallingBall();
+        frame.addKeyListener(this);
     }
 
     public JPanel getPan(){
@@ -36,26 +40,48 @@ public class Controller implements MouseListener, KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
 
+
+        System.out.println("key pressed");
+        if (gameManager.isRun()) {
+
+            panel.monter();
+            //gameManager.startJumpingBall();
+        }
+
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
+        System.out.println("key released");
+        if (gameManager.isRun()) {
+            //gameManager.setStarted(true);
+            panel.descendre();
 
+        }
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
+        if (gameManager.isRun()) {
+            panel.monter();
+        }
 
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
+        if (gameManager.isRun()) {
+            panel.monter();
+        }
 
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-
+        if (gameManager.isRun()) {
+            //gameManager.setStarted(true);
+            gameManager.startFallingBall();
+        }
     }
 
     @Override
