@@ -39,6 +39,7 @@ public class PanelGame extends JPanel implements Drawer {
 
 
         this.drawLineObstacle(g);
+        this.drawCircleObstacle(g,controller.getGameManager().getCircle());
 
         // On red�finit une couleur pour le rond
         g.setColor(this.controller.getGameManager().getCouleur());
@@ -51,6 +52,7 @@ public class PanelGame extends JPanel implements Drawer {
     private void drawLineObstacle(Graphics g) {
 
         //on dessine la premiere ligne color de la double ligne
+        /*
         g.setColor(Constantes.COLOR_TURQUOISE);
         g.fill3DRect(this.controller.getGameManager().getSquare().getFirstRectangleX(),
                 controller.getGameManager().getSquare().getSquareY(), 120, 10, true);
@@ -63,7 +65,7 @@ public class PanelGame extends JPanel implements Drawer {
         g.setColor(Constantes.COLOR_VIOLET);
         g.fill3DRect(this.controller.getGameManager().getSquare().getFourthRectangleX(),
                 controller.getGameManager().getSquare().getSquareY(), 120, 10, true);
-
+        */
     }
 
 
@@ -97,6 +99,23 @@ public class PanelGame extends JPanel implements Drawer {
 
     @Override
     public void drawCircleObstacle(Graphics g, Circle c) {
+
+        g.setColor(Constantes.COLOR_TURQUOISE);
+        g.fillArc(c.getCircleX(), c.getCircleY(), 120, 120, c.getFirstDegree(),90 );
+
+        g.setColor(Constantes.COLOR_YELLOW);
+        g.fillArc(c.getCircleX(), c.getCircleY(), 120,120, c.getSecondDegree(), 90);
+
+        g.setColor(Constantes.COLOR_PINK);
+        g.fillArc(c.getCircleX(), c.getCircleY(), 120, 120, c.getThirdDegree(), 90);
+
+        g.setColor(Constantes.COLOR_VIOLET);
+        g.fillArc(c.getCircleX(), c.getCircleY(), 120, 120, c.getFourthDegree(), 90);
+
+        g.setColor(Constantes.COLOR_BLACK);
+        g.fillOval(c.getCircleX()+10, c.getCircleY()+10, 100, 100);
+
+
 
     }
 

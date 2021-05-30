@@ -2,6 +2,7 @@ package model;
 
 import constantes.Constantes;
 import controller.Controller;
+import model.obstacles.Circle;
 import model.obstacles.Square;
 import model.threads.FallingBall;
 import model.threads.JumpingBall;
@@ -16,6 +17,16 @@ public class GameManager {
 
     private Square square;
 
+    private Circle circle;
+
+    public Circle getCircle() {
+        return circle;
+    }
+
+    public void setCircle(Circle circle) {
+        this.circle = circle;
+    }
+
     public Square getSquare() {
         return square;
     }
@@ -27,7 +38,10 @@ public class GameManager {
     public GameManager(Controller controller) {
         this.run=true;
         this.controller=controller;
-        square=new Square(0,100,200,300,200);
+       // square=new Square(0,100,200,300,200);
+         circle=new Circle(150,200,0,90,180,270,
+                 150,200);
+
     }
 
     // coordonn�es de d�part pour les variables x et y de la balle
