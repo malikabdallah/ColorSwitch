@@ -41,6 +41,8 @@ public class JumpingBall implements Runnable {
                 controller.getGameManager().setAbsiceJoueur(x);
                 ;
                 controller.getGameManager().setOrdonnesJoeur(y);
+
+                controller.getGameManager().checkColission();
                 ;
             }
         }

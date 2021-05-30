@@ -1,5 +1,6 @@
 package model;
 
+import com.sun.org.apache.bcel.internal.Const;
 import constantes.Constantes;
 import controller.Controller;
 import model.obstacles.Circle;
@@ -136,6 +137,72 @@ public class GameManager {
     public void objectStartMoving() {
         this.obstacleMoving=new Thread(new ObstacleMoving(controller));
         this.obstacleMoving.start();
+
+    }
+
+    public void checkColission() {
+        int couleurCode;
+        if(couleur == Constantes.COLOR_TURQUOISE){
+            couleurCode=1;
+        }else if(couleur == Constantes.COLOR_VIOLET){
+            couleurCode=2;
+        }else if(couleur == Constantes.COLOR_PINK){
+            couleurCode=3;
+        }else {
+            couleurCode = 4;
+        }
+        switch (couleurCode){
+            case 1:
+
+                if (this.controller.getGameManager().getOrdonnesJoeur() - 115 < this.controller.getGameManager().getCircle().getMaskY()
+                        //collision avec la partie interne  hute du plus petit double cercle
+                        && this.controller.getGameManager().getOrdonnesJoeur() - 95 > this.controller.getGameManager()
+                        .getCircle().getMaskY()
+
+                        // si le degre du quart de cercle est superieur a 180 et inferieur a 270
+                        && ((this.controller.getGameManager().getCircle().getSecondDegree() > 180)
+
+                        || (this.controller.getGameManager().getCircle().getThirdDegree() > 180)
+                        || (this.controller.getGameManager().getCircle().getFourthDegree() > 180)
+                       )) {
+                    System.out.println("colision bas du double cercle");
+                }else{
+                    System.out.println("aucune colission");
+                }
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+            case 4:
+                break;
+
+
+        }
+
+       // switch (this.couleur) {
+
+         //   case Constantes.COLOR_TURQUOISE:
+                // double cercle
+                //  colision avec la partie externe haute du plus grand double cercle
+             /*   if (this.controller.getGameManager().getOrdonnesJoeur() - 115 < this.controller.getGameManager().getCircle().getCircleY()
+                        //collision avec la partie interne  hute du plus petit double cercle
+                        && this.controller.getGameManager().getOrdonnesJoeur() - 95 > this.controller.getGameManager()
+                        ()
+
+                        // si le degre du quart de cercle est superieur a 180 et inferieur a 270
+                        && ((this.getPan().getDegreDeuxiemeQuartPremierDoubleCercle() > 180
+                        && this.getPan().getDegreDeuxiemeQuartPremierDoubleCercle() < 270)
+                        || (this.getPan().getDegreTroisiemeQuartPremierDoubleCercle() > 180
+                        && this.getPan().getDegreTroisiemeQuartPremierDoubleCercle() < 270)
+                        || (this.getPan().getDegreQuatriemeQuartPremierDoubleCercle() > 180
+                        && this.getPan().getDegreQuatriemeQuartPremierDoubleCercle() < 270))) {
+                    System.out.println("colision bas du double cercle");
+                    stopper_tout();
+
+                }
+
+              */
 
     }
 }
