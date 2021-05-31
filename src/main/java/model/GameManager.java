@@ -140,6 +140,80 @@ public class GameManager {
 
     }
 
+    public int getDegree(int quart){
+        int d=controller.getGameManager().circle.getFirstDegree();
+        switch (quart){
+            case 1:
+                d= controller.getGameManager().getCircle().getFirstDegree();
+                break;
+            case 2:
+                d= controller.getGameManager().getCircle().getSecondDegree();
+                break;
+            case 3:
+                d= controller.getGameManager().getCircle().getThirdDegree();
+                break;
+            case 4:
+                d= controller.getGameManager().getCircle().getFourthDegree();
+                break;
+
+        }
+        return d;
+    }
+
+    public boolean checkColissionCircleUp(int firstQuart,int secondQuart,int thirdQuart){
+        int quart1,quart2,quart3;
+        quart1=getDegree(firstQuart);
+        quart2=getDegree(secondQuart);
+        quart3=getDegree(thirdQuart);
+
+
+        //0 || 90
+        if (this.controller.getGameManager().getOrdonnesJoeur() < this.controller.getGameManager().getCircle().getCircleY()
+                && (this.ordonnesJoeur + 20 > this.getCircle().getCircleY())
+                &&( (quart1 > 0 && quart1 <90)
+                || (quart2 > 0 && quart2 <90)
+                || (quart3 < 90 && quart3>0 ))
+               )
+
+        {
+
+
+            System.out.println(" collision cercle haut");
+
+
+            // System.out.println(this.getPan().getOrdonnesJoeur());
+            return true;
+
+            //stopper_tout();
+        }else{
+            return false;
+        }
+    }
+
+    public boolean checkColissionCircleBottom(int firstQuart,int secondQuart,int thirdQuart){
+        int quart1,quart2,quart3;
+        quart1=getDegree(firstQuart);
+        quart2=getDegree(secondQuart);
+        quart3=getDegree(thirdQuart);
+        if (this.controller.getGameManager().getOrdonnesJoeur() - 115 < this.controller.getGameManager().getCircle().getMaskY()
+                //collision avec la partie interne  hute du plus petit double cercle
+                && this.controller.getGameManager().getOrdonnesJoeur() - 95 > this.controller.getGameManager()
+                .getCircle().getMaskY()
+
+                // si le degre du quart de cercle est superieur a 180 et inferieur a 270
+                && ((quart1 > 180)
+
+                || (quart2 > 180)
+                || (quart3 > 180)
+        )) {
+            return true;
+        }else{
+            return false;
+        }
+
+
+    }
+
     public void checkColission() {
         int couleurCode;
         if(couleur == Constantes.COLOR_TURQUOISE){
@@ -151,30 +225,44 @@ public class GameManager {
         }else {
             couleurCode = 4;
         }
+        boolean colission=false;
         switch (couleurCode){
             case 1:
-
-                if (this.controller.getGameManager().getOrdonnesJoeur() - 115 < this.controller.getGameManager().getCircle().getMaskY()
-                        //collision avec la partie interne  hute du plus petit double cercle
-                        && this.controller.getGameManager().getOrdonnesJoeur() - 95 > this.controller.getGameManager()
-                        .getCircle().getMaskY()
-
-                        // si le degre du quart de cercle est superieur a 180 et inferieur a 270
-                        && ((this.controller.getGameManager().getCircle().getSecondDegree() > 180)
-
-                        || (this.controller.getGameManager().getCircle().getThirdDegree() > 180)
-                        || (this.controller.getGameManager().getCircle().getFourthDegree() > 180)
-                       )) {
-                    System.out.println("colision bas du double cercle");
-                }else{
-                    System.out.println("aucune colission");
+               // colission=checkColissionCircleBottom(2,3,4)
+                //|| checkColissionCircleUp(2,3,4);
+                colission=checkColissionCircleUp(2,3,4);
+                if(colission){
+                    //System.out.println("colission");
+                }else {
+                    //System.out.println("aucune colision");
                 }
                 break;
             case 2:
+                colission=checkColissionCircleBottom(1,3,4)
+                || checkColissionCircleUp(1,3,4);
+                if(colission){
+                    System.out.println("colission");
+                }else {
+                    System.out.println("aucune colision");
+                }
                 break;
             case 3:
+                colission=checkColissionCircleBottom(2,1,4)
+                || checkColissionCircleUp(2,1,4);
+                if(colission){
+                    //System.out.println("colission");
+                }else {
+                    //System.out.println("aucune colision");
+                }
                 break;
             case 4:
+                colission=checkColissionCircleBottom(2,3,1)
+                || checkColissionCircleUp(2,3,1);
+                if(colission){
+                    System.out.println("colission");
+                }else {
+                    System.out.println("aucune colision");
+                }
                 break;
 
 
