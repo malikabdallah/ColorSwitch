@@ -4,7 +4,9 @@ import com.sun.org.apache.bcel.internal.Const;
 import constantes.Constantes;
 import controller.Controller;
 import model.obstacles.Circle;
+import model.obstacles.Obstacle;
 import model.obstacles.Square;
+import model.obstacles.Line;
 import model.threads.FallingBall;
 import model.threads.JumpingBall;
 import model.threads.ObstacleMoving;
@@ -16,9 +18,15 @@ public class GameManager {
     private Controller controller;
 
 
-    private Square square;
+    //public List<Obstacle>obstacleList;
+
+
+    private Square square=new Square();
 
     private Circle circle;
+
+    private Line line;
+
 
     public Circle getCircle() {
         return circle;
@@ -36,17 +44,28 @@ public class GameManager {
         this.square = square;
     }
 
+    public Line getLine() {
+        return line;
+    }
+
+    public void setLine(Line line) {
+        this.line = line;
+    }
+
     public GameManager(Controller controller) {
         this.run=true;
         this.controller=controller;
        // square=new Square(0,100,200,300,200);
-         circle=new Circle(150,200,0,90,180,270,
+         circle=new Circle(90,200,0,90,180,270,
                  150,200);
+
+          line=new Line(0,95,190,285,400);
+
 
     }
 
     // coordonn�es de d�part pour les variables x et y de la balle
-    private int absiceJoueur = 200;
+    private int absiceJoueur = 140;
     private int ordonnesJoeur = 400;
 
     private Color couleur= Constantes.COLOR_TURQUOISE;
@@ -178,7 +197,6 @@ public class GameManager {
         {
 
 
-            System.out.println(" collision cercle haut");
 
 
             // System.out.println(this.getPan().getOrdonnesJoeur());
@@ -195,6 +213,23 @@ public class GameManager {
         quart1=getDegree(firstQuart);
         quart2=getDegree(secondQuart);
         quart3=getDegree(thirdQuart);
+
+        if (this.controller.getGameManager().getOrdonnesJoeur() - 115 < this.controller.getGameManager().getCircle().getMaskY()
+                //collision avec la partie interne  hute du plus petit double cercle
+                && this.controller.getGameManager().getOrdonnesJoeur() - 95 > this.controller.getGameManager()
+                .getCircle().getMaskY()
+
+                // si le degre du quart de cercle est superieur a 180 et inferieur a 270
+                && ((quart1 > 180 && quart1<270)
+
+                || (quart2 > 180 && quart2<270)
+                || (quart3>180 && quart3<270)
+        )) {
+            return true;
+        }else{
+            return false;
+        }
+        /*
         if (this.controller.getGameManager().getOrdonnesJoeur() - 115 < this.controller.getGameManager().getCircle().getMaskY()
                 //collision avec la partie interne  hute du plus petit double cercle
                 && this.controller.getGameManager().getOrdonnesJoeur() - 95 > this.controller.getGameManager()
@@ -206,15 +241,19 @@ public class GameManager {
                 || (quart2 > 180)
                 || (quart3 > 180)
         )) {
+            System.out.println("colission bottom");
             return true;
         }else{
             return false;
         }
 
+         */
+
 
     }
 
     public void checkColission() {
+        /*
         int couleurCode;
         if(couleur == Constantes.COLOR_TURQUOISE){
             couleurCode=1;
@@ -228,11 +267,10 @@ public class GameManager {
         boolean colission=false;
         switch (couleurCode){
             case 1:
-               // colission=checkColissionCircleBottom(2,3,4)
-                //|| checkColissionCircleUp(2,3,4);
-                colission=checkColissionCircleUp(2,3,4);
+                colission=checkColissionCircleBottom(2,3,4)
+                        || checkColissionCircleUp(2,3,4);
                 if(colission){
-                    //System.out.println("colission");
+                    System.out.println("colission");
                 }else {
                     //System.out.println("aucune colision");
                 }

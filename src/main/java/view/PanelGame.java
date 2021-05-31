@@ -11,6 +11,7 @@ import model.threads.JumpingBall;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 
 public class PanelGame extends JPanel implements Drawer {
 
@@ -37,7 +38,6 @@ public class PanelGame extends JPanel implements Drawer {
         g.setColor(Constantes.COLOR_BLACK);
         g.fillRect(0, 0, this.getWidth(), this.getHeight());
 
-
         this.drawLineObstacle(g);
         this.drawCircleObstacle(g,controller.getGameManager().getCircle());
 
@@ -52,20 +52,20 @@ public class PanelGame extends JPanel implements Drawer {
     private void drawLineObstacle(Graphics g) {
 
         //on dessine la premiere ligne color de la double ligne
-        /*
+
         g.setColor(Constantes.COLOR_TURQUOISE);
-        g.fill3DRect(this.controller.getGameManager().getSquare().getFirstRectangleX(),
-                controller.getGameManager().getSquare().getSquareY(), 120, 10, true);
+        g.fill3DRect(this.controller.getGameManager().getLine().getFirstRectangleX(),
+                controller.getGameManager().getLine().getSquareY(), 95, 10, true);
         g.setColor(Constantes.COLOR_YELLOW);
-        g.fill3DRect(this.controller.getGameManager().getSquare().getSecondRectangleX(),
-                controller.getGameManager().getSquare().getSquareY(), 120, 10, true);
+        g.fill3DRect(this.controller.getGameManager().getLine().getSecondRectangleX(),
+                controller.getGameManager().getLine().getSquareY(), 95, 10, true);
         g.setColor(Constantes.COLOR_PINK);
-        g.fill3DRect(this.controller.getGameManager().getSquare().getThirdRectangleX(),
-                controller.getGameManager().getSquare().getSquareY(), 120, 10, true);
+        g.fill3DRect(this.controller.getGameManager().getLine().getThirdRectangleX(),
+                controller.getGameManager().getLine().getSquareY(), 95, 10, true);
         g.setColor(Constantes.COLOR_VIOLET);
-        g.fill3DRect(this.controller.getGameManager().getSquare().getFourthRectangleX(),
-                controller.getGameManager().getSquare().getSquareY(), 120, 10, true);
-        */
+        g.fill3DRect(this.controller.getGameManager().getLine().getFourthRectangleX(),
+                controller.getGameManager().getLine().getSquareY(), 95, 10, true);
+
     }
 
 
@@ -121,6 +121,8 @@ public class PanelGame extends JPanel implements Drawer {
 
     @Override
     public void drawSquareObstacle(Graphics g, Square s) {
+
+
 
     }
 }

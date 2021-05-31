@@ -17,7 +17,7 @@ public class FrameGame extends JFrame {
         this.setTitle("Switch color v2.0");
 
         //definit la taille de la fenetre
-        this.setSize(400, 600);
+        this.setSize(300, 600);
 
         ///Termine le processus lorsqu'on clique sur la croix rouge
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
