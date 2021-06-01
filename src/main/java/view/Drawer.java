@@ -1,6 +1,7 @@
 package view;
 
 import model.obstacles.Circle;
+import model.obstacles.Cross;
 import model.obstacles.Line;
 import model.obstacles.Square;
 
@@ -13,6 +14,8 @@ public interface Drawer {
      void drawCircleObstacle(Graphics g, Circle c);
 
      void drawSquareObstacle(Graphics g, Square s);
+
+     void drawCrossObsacle(Graphics g, Cross c);
 
 
     }

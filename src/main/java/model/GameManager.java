@@ -3,13 +3,8 @@ package model;
 import com.sun.org.apache.bcel.internal.Const;
 import constantes.Constantes;
 import controller.Controller;
-import model.obstacles.Circle;
-import model.obstacles.Obstacle;
-import model.obstacles.Square;
-import model.obstacles.Line;
-import model.threads.FallingBall;
-import model.threads.JumpingBall;
-import model.threads.ObstacleMoving;
+import model.obstacles.*;
+import model.threads.*;
 
 import java.awt.*;
 
@@ -27,6 +22,15 @@ public class GameManager {
 
     private Line line;
 
+    private Cross cross;
+
+    public Cross getCross() {
+        return cross;
+    }
+
+    public void setCross(Cross cross) {
+        this.cross = cross;
+    }
 
     public Circle getCircle() {
         return circle;
@@ -52,16 +56,26 @@ public class GameManager {
         this.line = line;
     }
 
+    public MultiColorBall multiColorBall;
+
+    public MultiColorBall getMultiColorBall() {
+        return multiColorBall;
+    }
+
+    public void setMultiColorBall(MultiColorBall multiColorBall) {
+        this.multiColorBall = multiColorBall;
+    }
+
     public GameManager(Controller controller) {
         this.run=true;
         this.controller=controller;
        // square=new Square(0,100,200,300,200);
-         circle=new Circle(90,200,0,90,180,270,
-                 150,200);
+       //  circle=new Circle(90,100,0,90,180,270,
+         //        150,200);
+        cross=new Cross(90,300,45,135,225,315);
+         // line=new Line(0,95,190,285,300);
 
-          line=new Line(0,95,190,285,400);
-
-
+        multiColorBall=new MultiColorBall(90,100,0,90,140,320 );
     }
 
     // coordonn�es de d�part pour les variables x et y de la balle
@@ -73,14 +87,16 @@ public class GameManager {
 
     private Thread fallingBall;
     private Thread jumpingBall;
-    private Thread obstacleMoving;
+    private Thread movingCircle;
+    private Thread movingLine;
+    private Thread movingCross;
 
-    public Thread getObstacleMoving() {
-        return obstacleMoving;
+    public Thread getMovingCross() {
+        return movingCross;
     }
 
-    public void setObstacleMoving(Thread obstacleMoving) {
-        this.obstacleMoving = obstacleMoving;
+    public void setMovingCross(Thread movingCross) {
+        this.movingCross = movingCross;
     }
 
     public Thread getFallingBall() {
@@ -153,9 +169,32 @@ public class GameManager {
         this.controller=controller;
     }
 
+    public Thread getMovingCircle() {
+        return movingCircle;
+    }
+
+    public void setMovingCircle(Thread movingCircle) {
+        this.movingCircle = movingCircle;
+    }
+
+    public Thread getMovingLine() {
+        return movingLine;
+    }
+
+    public void setMovingLine(Thread movingLine) {
+        this.movingLine = movingLine;
+    }
+
     public void objectStartMoving() {
-        this.obstacleMoving=new Thread(new ObstacleMoving(controller));
-        this.obstacleMoving.start();
+       // this.obstacleMoving=new Thread(new ObstacleMoving(controller));
+        //this.obstacleMoving.start();
+
+        this.movingCircle=new Thread(new MovingCircle(controller));
+        this.movingLine=new Thread(new MovingLine(controller));
+        this.movingCross=new Thread(new MovingCross(controller));
+        this.movingLine.start();
+        this.movingCircle.start();
+        this.movingCross.start();
 
     }
 
@@ -229,31 +268,57 @@ public class GameManager {
         }else{
             return false;
         }
-        /*
-        if (this.controller.getGameManager().getOrdonnesJoeur() - 115 < this.controller.getGameManager().getCircle().getMaskY()
-                //collision avec la partie interne  hute du plus petit double cercle
-                && this.controller.getGameManager().getOrdonnesJoeur() - 95 > this.controller.getGameManager()
-                .getCircle().getMaskY()
-
-                // si le degre du quart de cercle est superieur a 180 et inferieur a 270
-                && ((quart1 > 180)
-
-                || (quart2 > 180)
-                || (quart3 > 180)
-        )) {
-            System.out.println("colission bottom");
-            return true;
-        }else{
-            return false;
-        }
-
-         */
-
 
     }
 
+
+    public boolean checkColissionLine(){
+        int couleurCode;
+        if(couleur == Constantes.COLOR_TURQUOISE){
+            couleurCode=1;
+        }else if(couleur == Constantes.COLOR_VIOLET){
+            couleurCode=2;
+        }else if(couleur == Constantes.COLOR_PINK){
+            couleurCode=3;
+        }else {
+            couleurCode = 4;
+        }
+        boolean colission=false;
+        switch (couleurCode){
+
+            case 1:
+                if (this.controller.getGameManager().getOrdonnesJoeur() <= this.controller.getGameManager().line.getSquareY() + 5
+                        && this.controller.getGameManager().getOrdonnesJoeur() >= this.controller.getGameManager().line.getSquareY() - 15
+                        && this.controller.getGameManager().getAbsiceJoueur() >= this.controller.getGameManager().line.getSecondRectangleX()
+                        && this.controller.getGameManager().getAbsiceJoueur() <= this.controller.getGameManager().line.getSecondRectangleX() + 95) {
+                        System.out.println("colision ligne");
+                        return true;
+                    //stopper_tout();
+                }
+                if (this.controller.getGameManager().getOrdonnesJoeur() <= this.controller.getGameManager().line.getSquareY() + 5
+                        && this.controller.getGameManager().getOrdonnesJoeur() >= this.controller.getGameManager().line.getSquareY() - 15
+                        && this.controller.getGameManager().getAbsiceJoueur() >= this.controller.getGameManager().line.getThirdRectangleX()
+                        && this.controller.getGameManager().getAbsiceJoueur() <= this.controller.getGameManager().line.getThirdRectangleX() + 95) {
+                        System.out.println("colision ligne");
+                        return true;
+                }
+                if (this.controller.getGameManager().getOrdonnesJoeur() <= this.controller.getGameManager().line.getSquareY() + 5
+                        && this.controller.getGameManager().getOrdonnesJoeur() >= this.controller.getGameManager().line.getSquareY() - 15
+                        && this.controller.getGameManager().getAbsiceJoueur() >= this.controller.getGameManager().line.getFourthRectangleX()
+                        && this.controller.getGameManager().getAbsiceJoueur() <= this.controller.getGameManager().line.getFourthRectangleX() + 95) {
+                        System.out.println("colision ligne");
+                        return true;
+                }
+
+
+                break;
+
+        }
+        return true;
+    }
+
     public void checkColission() {
-        /*
+
         int couleurCode;
         if(couleur == Constantes.COLOR_TURQUOISE){
             couleurCode=1;
@@ -268,9 +333,10 @@ public class GameManager {
         switch (couleurCode){
             case 1:
                 colission=checkColissionCircleBottom(2,3,4)
-                        || checkColissionCircleUp(2,3,4);
+                        || checkColissionCircleUp(2,3,4) ||
+                        checkColissionLine();
                 if(colission){
-                    System.out.println("colission");
+                    //System.out.println("colission");
                 }else {
                     //System.out.println("aucune colision");
                 }

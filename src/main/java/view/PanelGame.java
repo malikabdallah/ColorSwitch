@@ -4,6 +4,7 @@ import com.sun.corba.se.impl.orbutil.closure.Constant;
 import constantes.Constantes;
 import controller.Controller;
 import model.obstacles.Circle;
+import model.obstacles.Cross;
 import model.obstacles.Line;
 import model.obstacles.Square;
 import model.threads.FallingBall;
@@ -38,9 +39,9 @@ public class PanelGame extends JPanel implements Drawer {
         g.setColor(Constantes.COLOR_BLACK);
         g.fillRect(0, 0, this.getWidth(), this.getHeight());
 
-        this.drawLineObstacle(g);
-        this.drawCircleObstacle(g,controller.getGameManager().getCircle());
-
+        //this.drawLineObstacle(g);
+        //this.drawCircleObstacle(g,controller.getGameManager().getCircle());
+        this.drawCrossObsacle(g,controller.getGameManager().getCross());
         // On red�finit une couleur pour le rond
         g.setColor(this.controller.getGameManager().getCouleur());
         // On le dessine aux coordonn�es souhait�es
@@ -117,12 +118,73 @@ public class PanelGame extends JPanel implements Drawer {
 
 
 
+
+        g.setColor(Constantes.COLOR_TURQUOISE);
+        int x=controller.getGameManager().multiColorBall.getAbsiceBouleMulti();
+        int y=controller.getGameManager().multiColorBall.getOrdonneBouleMulti();
+        int d1=controller.getGameManager().multiColorBall.getDegrePremierQuartBouleMultiCouleur();
+        int d2=controller.getGameManager().multiColorBall.getDegreDeuxiemeQuartBouleMultiCouleur();
+        int d3=controller.getGameManager().multiColorBall.getDegreTroisiemeQuartBouleMultiCouleur();
+        int d4=controller.getGameManager().multiColorBall.getDegreQuatriemeQuartBouleMultiCouleur();
+        g.fillArc(x, y, 20, 20, 0,90 );
+
+        g.setColor(Constantes.COLOR_YELLOW);
+        g.fillArc(x, y, 20,20,90, 90);
+
+        g.setColor(Constantes.COLOR_PINK);
+        g.fillArc(x, y, 20, 20, 180, 90);
+
+        g.setColor(Constantes.COLOR_VIOLET);
+        g.fillArc(x,y, 20, 20, 270, 90);
+
+
+
+
     }
 
     @Override
     public void drawSquareObstacle(Graphics g, Square s) {
 
 
+
+    }
+
+    @Override
+    public void drawCrossObsacle(Graphics g, Cross c) {
+        // dessiner la croix
+        //le lien d'ou j'ai récuperer cette façon de rotation de n'importe kel forme :
+        //https://stackoverflow.com/questions/13519449/rotate-rectangle-and-move-it-in-sin-wave-help-using-graphics2d
+        Graphics2D g1 = (Graphics2D) g;
+        g1.setColor(Constantes.COLOR_TURQUOISE);
+        Rectangle rect1 = new Rectangle((int) c.getCrossX(), (int) c.getCrossY(), 10, 70);
+        AffineTransform transform1 = new AffineTransform();
+        transform1.rotate(Math.toRadians(c.getDegre1()), rect1.getX() + rect1.width / 2, rect1.getY());
+        Shape transformed1 = transform1.createTransformedShape(rect1);
+        g1.fill(transformed1);
+
+        Graphics2D g2 = (Graphics2D) g;
+        g2.setColor(Constantes.COLOR_YELLOW);
+        Rectangle rect2 = new Rectangle((int) c.getCrossX(), (int) c.getCrossY(), 10, 70);
+        AffineTransform transform2 = new AffineTransform();
+        transform2.rotate(Math.toRadians(c.getDegre2()), rect2.getX() + rect2.width / 2, rect2.getY());
+        Shape transformed2 = transform2.createTransformedShape(rect2);
+        g2.fill(transformed2);
+
+        Graphics2D g3 = (Graphics2D) g;
+        g3.setColor(Constantes.COLOR_PINK);
+        Rectangle rect3 = new Rectangle((int) c.getCrossX(), (int) c.getCrossY(), 10, 70);
+        AffineTransform transform3 = new AffineTransform();
+        transform3.rotate(Math.toRadians(c.getDegre3()), rect3.getX() + rect3.width / 2, rect3.getY());
+        Shape transformed3 = transform3.createTransformedShape(rect3);
+        g3.fill(transformed3);
+
+        Graphics2D g4 = (Graphics2D) g;
+        g4.setColor(Constantes.COLOR_VIOLET);
+        Rectangle rect4 = new Rectangle((int) c.getCrossX(), (int) c.getCrossY(), 10, 70);
+        AffineTransform transform4 = new AffineTransform();
+        transform4.rotate(Math.toRadians(c.getDegre4()), rect4.getX() + rect4.width / 2, rect4.getY());
+        Shape transformed4 = transform4.createTransformedShape(rect4);
+        g4.fill(transformed4);
 
     }
 }
