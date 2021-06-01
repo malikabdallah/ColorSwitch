@@ -62,9 +62,9 @@ public class GameManager {
         this.run=true;
         this.controller=controller;
        // square=new Square(0,100,200,300,200);
-       //  circle=new Circle(90,100,0,90,180,270,
-         //        150,200);
-        cross=new Cross(90,300,45,135,225,315);
+         circle=new Circle(90,100,0,90,180,270,
+                150,200);
+        //cross=new Cross(90,300,45,135,225,315);
          // line=new Line(0,95,190,285,300);
 
         multiColorBall=new MultiColorBall(90,100,0,90,140,320 );
@@ -182,11 +182,11 @@ public class GameManager {
         //this.obstacleMoving.start();
 
         this.movingCircle=new Thread(new MovingCircle(controller));
-        this.movingLine=new Thread(new MovingLine(controller));
-        this.movingCross=new Thread(new MovingCross(controller));
-        this.movingLine.start();
+        //this.movingLine=new Thread(new MovingLine(controller));
+       // this.movingCross=new Thread(new MovingCross(controller));
+        //this.movingLine.start();
         this.movingCircle.start();
-        this.movingCross.start();
+        //this.movingCross.start();
 
     }
 
@@ -324,12 +324,8 @@ public class GameManager {
         boolean colission=false;
         switch (couleurCode){
             case 1:
-                checkColissionCross();
-                if(colission){
-                    //System.out.println("colission");
-                }else {
-                    //System.out.println("aucune colision");
-                }
+
+                checkColissionMultiColorBall();
                 break;
             case 2:
                 colission=checkColissionCircleBottom(1,3,4)
@@ -385,6 +381,25 @@ public class GameManager {
                 }
 
               */
+
+    }
+
+
+    public  void checkColissionMultiColorBall(){
+
+        if(multiColorBall.getOrdonneBouleMulti()>= this.ordonnesJoeur-10
+        && multiColorBall.getOrdonneBouleMulti()<= this.ordonnesJoeur+10){
+            int couleurCode;
+            if(couleur == Constantes.COLOR_TURQUOISE){
+               couleur=Constantes.COLOR_VIOLET;
+            }else if(couleur == Constantes.COLOR_VIOLET){
+                couleur=Constantes.COLOR_PINK;
+            }else if(couleur == Constantes.COLOR_PINK){
+                 couleur=Constantes.COLOR_YELLOW;
+            }else {
+                couleur=Constantes.COLOR_TURQUOISE;
+            }
+        }
 
     }
 
