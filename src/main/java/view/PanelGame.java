@@ -1,12 +1,10 @@
 package view;
 
-import com.sun.corba.se.impl.orbutil.closure.Constant;
 import constantes.Constantes;
 import controller.Controller;
 import model.obstacles.Circle;
 import model.obstacles.Cross;
 import model.obstacles.Line;
-import model.obstacles.Square;
 import model.threads.FallingBall;
 import model.threads.JumpingBall;
 
@@ -142,12 +140,6 @@ public class PanelGame extends JPanel implements Drawer {
 
     }
 
-    @Override
-    public void drawSquareObstacle(Graphics g, Square s) {
-
-
-
-    }
 
     @Override
     public void drawCrossObsacle(Graphics g, Cross c) {

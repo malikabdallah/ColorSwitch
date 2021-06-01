@@ -16,7 +16,6 @@ public class GameManager {
     //public List<Obstacle>obstacleList;
 
 
-    private Square square=new Square();
 
     private Circle circle;
 
@@ -40,13 +39,6 @@ public class GameManager {
         this.circle = circle;
     }
 
-    public Square getSquare() {
-        return square;
-    }
-
-    public void setSquare(Square square) {
-        this.square = square;
-    }
 
     public Line getLine() {
         return line;
