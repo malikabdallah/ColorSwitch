@@ -324,9 +324,7 @@ public class GameManager {
         boolean colission=false;
         switch (couleurCode){
             case 1:
-                colission=checkColissionCircleBottom(2,3,4)
-                        || checkColissionCircleUp(2,3,4) ||
-                        checkColissionLine();
+                checkColissionCross();
                 if(colission){
                     //System.out.println("colission");
                 }else {
@@ -388,5 +386,44 @@ public class GameManager {
 
               */
 
+    }
+
+
+    public boolean checkColissionCross(){
+        int couleurCode;
+        if(couleur == Constantes.COLOR_TURQUOISE){
+            couleurCode=1;
+        }else if(couleur == Constantes.COLOR_VIOLET){
+            couleurCode=2;
+        }else if(couleur == Constantes.COLOR_PINK){
+            couleurCode=3;
+        }else {
+            couleurCode = 4;
+        }
+        boolean colission=false;
+
+        switch (couleurCode) {
+            case 1:
+                int d2 = cross.getDegre2();
+                int d3 = cross.getDegre1();
+                int d4 = cross.getDegre4();
+                if (((d2 > 70 && d2 < 130))
+                        && this.ordonnesJoeur>= cross.getCrossY()-20 && this.ordonnesJoeur<=cross.getCrossY()+20) {
+                    System.out.println("colission D2");
+                }
+                if (((d3 > 70 && d3 < 130))
+                        && this.ordonnesJoeur>= cross.getCrossY()-20 && this.ordonnesJoeur<=cross.getCrossY()+20) {
+                    System.out.println("colission D3");
+                }
+                if (( (d4 > 70 && d4 < 130))
+                 && this.ordonnesJoeur>= cross.getCrossY()-20 && this.ordonnesJoeur<=cross.getCrossY()+20) {
+                    System.out.println("colission D4");
+                }
+                break;
+        }
+
+
+
+        return false;
     }
 }

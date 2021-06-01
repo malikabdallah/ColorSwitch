@@ -40,6 +40,8 @@ public class PanelGame extends JPanel implements Drawer {
         //this.drawLineObstacle(g);
         //this.drawCircleObstacle(g,controller.getGameManager().getCircle());
         this.drawCrossObsacle(g,controller.getGameManager().getCross());
+
+
         // On red�finit une couleur pour le rond
         g.setColor(this.controller.getGameManager().getCouleur());
         // On le dessine aux coordonn�es souhait�es

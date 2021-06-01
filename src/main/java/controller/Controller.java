@@ -19,8 +19,8 @@ public class Controller implements MouseListener, KeyListener {
     PanelGame panel;
     GameManager gameManager;
     public Controller() {
-        //AudioClip mApplause = new AudioClip(this.getClass().getResource("/colorswitch.mp3").toExternalForm());
-        //mApplause.play();
+        AudioClip mApplause = new AudioClip(this.getClass().getResource("/colorswitch.mp3").toExternalForm());
+        mApplause.play();
         panel=new PanelGame(this);
 
         gameManager=new GameManager(this);
