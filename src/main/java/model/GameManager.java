@@ -14,10 +14,7 @@ import java.util.List;
 public class GameManager {
 
     private Controller controller;
-
-
     public List<Obstacle> obstacleList=new ArrayList<>();
-
 
     public List<Circle>getsCircle(){
         List<Circle>circles=new ArrayList<>();
@@ -56,12 +53,6 @@ public class GameManager {
         }
         return multicolorsballs;
     }
-
-
-
-
-
-
     public GameManager(Controller controller) {
         this.run=true;
         this.controller=controller;
@@ -217,7 +208,7 @@ public class GameManager {
         return d;
     }
 
-    public boolean checkColissionCircleUp(int firstQuart,int secondQuart,int thirdQuart,Circle circle){
+    public void  checkColissionCircleUp(int firstQuart,int secondQuart,int thirdQuart,Circle circle){
         int quart1,quart2,quart3;
         quart1=getDegree(firstQuart,circle);
         quart2=getDegree(secondQuart,circle);
@@ -234,19 +225,15 @@ public class GameManager {
 
         {
 
-
-
-
-            // System.out.println(this.getPan().getOrdonnesJoeur());
-            return true;
-
-            //stopper_tout();
+            losing();
         }else{
-            return false;
+
         }
     }
 
-    public boolean checkColissionCircleBottom(int firstQuart,int secondQuart,int thirdQuart,Circle circle){
+
+
+    public void checkColissionCircleBottom(int firstQuart,int secondQuart,int thirdQuart,Circle circle){
         int quart1,quart2,quart3;
         quart1=getDegree(firstQuart,circle);
         quart2=getDegree(secondQuart,circle);
@@ -262,15 +249,15 @@ public class GameManager {
                 || (quart2 > 180 && quart2<270)
                 || (quart3>180 && quart3<270)
         )) {
-            return true;
+            losing();
         }else{
-            return false;
+
         }
 
     }
 
 
-    public boolean checkColissionLine(Line line){
+    public void checkColissionLine(Line line){
         int couleurCode;
         if(couleur == Constantes.COLOR_TURQUOISE){
             couleurCode=1;
@@ -318,7 +305,7 @@ public class GameManager {
                 && this.controller.getGameManager().getAbsiceJoueur() >= d1
                 && this.controller.getGameManager().getAbsiceJoueur() <= d1 + 95) {
             System.out.println("colision ligne");
-            return true;
+            losing();
             //stopper_tout();
         }
         if (this.controller.getGameManager().getOrdonnesJoeur() <= line.getSquareY() + 5
@@ -326,18 +313,17 @@ public class GameManager {
                 && this.controller.getGameManager().getAbsiceJoueur() >= d2
                 && this.controller.getGameManager().getAbsiceJoueur() <= d2 + 95) {
             System.out.println("colision ligne");
-            return true;
+            losing();
         }
         if (this.controller.getGameManager().getOrdonnesJoeur() <= line.getSquareY() + 5
                 && this.controller.getGameManager().getOrdonnesJoeur() >= line.getSquareY() - 15
                 && this.controller.getGameManager().getAbsiceJoueur() >=d3
                 && this.controller.getGameManager().getAbsiceJoueur() <=d3 + 95) {
             System.out.println("colision ligne");
-            return true;
+           losing();
         }
 
 
-     return false;
 
 
     }
@@ -383,8 +369,8 @@ public class GameManager {
         for(Obstacle obstacle:obstacleList){
             if(obstacle instanceof Circle){
 
-                colission=checkColissionCircleBottom(d1check,d2check,d3check,(Circle) obstacle)
-                        || checkColissionCircleUp(d1check,d2check,d3check,(Circle) obstacle);
+                checkColissionCircleBottom(d1check,d2check,d3check,(Circle) obstacle) ;
+            checkColissionCircleUp(d1check,d2check,d3check,(Circle) obstacle);
 
 
             }else if(obstacle instanceof Line){
@@ -594,5 +580,17 @@ public class GameManager {
 
             }
         }
+    }
+
+
+
+    private void losing() {
+
+        this.movingCross.stop();
+        this.jumpingBall.stop();
+        this.fallingBall.stop();
+        this.movingCircle.stop();
+        this.movingLine.stop();
+        this.run=false;
     }
 }

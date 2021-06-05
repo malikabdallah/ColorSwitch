@@ -25,14 +25,11 @@ public class PanelGame extends JPanel implements Drawer {
 
     public PanelGame(Controller controller) {
        this.initLabelScore();
-
         this.controller=controller;
-
     }
 
     @Override
     protected void paintComponent(Graphics g) {
-
         g.setColor(Constantes.COLOR_BLACK);
         g.fillRect(0, 0, this.getWidth(), this.getHeight());
         List<Obstacle> obstacleList=controller.getGameManager().obstacleList;
@@ -50,9 +47,7 @@ public class PanelGame extends JPanel implements Drawer {
                 this.drawCircleObstacle(g,(Circle)obstacle);
             }
         }
-        // On red�finit une couleur pour le rond
         g.setColor(this.controller.getGameManager().getCouleur());
-        // On le dessine aux coordonn�es souhait�es
         g.fillOval(this.controller.getGameManager().getAbsiceJoueur(),
                 this.controller.getGameManager().getOrdonnesJoeur(), 20, 20);
 
@@ -138,11 +133,6 @@ public class PanelGame extends JPanel implements Drawer {
 
         g.setColor(Constantes.COLOR_BLACK);
         g.fillOval(c.getCircleX()+10, c.getCircleY()+10, 100, 100);
-
-
-
-
-
     }
 
 
