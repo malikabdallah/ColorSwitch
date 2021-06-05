@@ -1,80 +1,87 @@
 package model;
 
 import com.sun.org.apache.bcel.internal.Const;
+import com.sun.org.apache.xpath.internal.operations.Mult;
 import constantes.Constantes;
 import controller.Controller;
 import model.obstacles.*;
 import model.threads.*;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GameManager {
 
     private Controller controller;
 
 
-    //public List<Obstacle>obstacleList;
+    public List<Obstacle> obstacleList=new ArrayList<>();
 
 
-
-    private Circle circle;
-
-    private Line line;
-
-    private Cross cross;
-
-    public Cross getCross() {
-        return cross;
+    public List<Circle>getsCircle(){
+        List<Circle>circles=new ArrayList<>();
+        for(Obstacle obstacle:obstacleList){
+            if(obstacle instanceof Circle){
+                circles.add((Circle) obstacle);
+            }
+        }
+        return circles;
     }
 
-    public void setCross(Cross cross) {
-        this.cross = cross;
+    public List<Line>getLines(){
+        List<Line>lines=new ArrayList<>();
+        for(Obstacle obstacle:obstacleList){
+            if(obstacle instanceof Line){
+                lines.add((Line) obstacle);
+            }
+        }
+        return lines;
+    }
+    public List<Cross>getCrosses(){
+        List<Cross>crosses=new ArrayList<>();
+        for(Obstacle obstacle:obstacleList){
+            if(obstacle instanceof Cross){
+                crosses.add((Cross) obstacle);
+            }
+        }
+        return crosses;
+    }
+    public List<MultiColorBall>getMultiColors(){
+        List<MultiColorBall>multicolorsballs=new ArrayList<>();
+        for(Obstacle obstacle:obstacleList){
+            if(obstacle instanceof MultiColorBall){
+                multicolorsballs.add((MultiColorBall) obstacle);
+            }
+        }
+        return multicolorsballs;
     }
 
-    public Circle getCircle() {
-        return circle;
-    }
-
-    public void setCircle(Circle circle) {
-        this.circle = circle;
-    }
 
 
-    public Line getLine() {
-        return line;
-    }
 
-    public void setLine(Line line) {
-        this.line = line;
-    }
 
-    public MultiColorBall multiColorBall;
-
-    public MultiColorBall getMultiColorBall() {
-        return multiColorBall;
-    }
-
-    public void setMultiColorBall(MultiColorBall multiColorBall) {
-        this.multiColorBall = multiColorBall;
-    }
 
     public GameManager(Controller controller) {
         this.run=true;
         this.controller=controller;
-       // square=new Square(0,100,200,300,200);
-         circle=new Circle(90,100,0,90,180,270,
-                150,200);
-        //cross=new Cross(90,300,45,135,225,315);
-         // line=new Line(0,95,190,285,300);
 
-        multiColorBall=new MultiColorBall(90,100,0,90,140,320 );
+         obstacleList.add(new Circle(90,-300,0,90,180,270,
+                150,-370));
+            obstacleList.add(new Cross(90,100,45,135,225,315));
+
+            obstacleList.add(new Line(0,95,190,285,250));
+
+       obstacleList.add(new MultiColorBall(90,
+               100,0,
+               90,140,320 ,true));
     }
 
     // coordonn�es de d�part pour les variables x et y de la balle
     private int absiceJoueur = 140;
     private int ordonnesJoeur = 400;
 
-    private Color couleur= Constantes.COLOR_TURQUOISE;
+    private Color couleur= Constantes.COLOR_YELLOW;
 
 
     private Thread fallingBall;
@@ -182,44 +189,44 @@ public class GameManager {
         //this.obstacleMoving.start();
 
         this.movingCircle=new Thread(new MovingCircle(controller));
-        //this.movingLine=new Thread(new MovingLine(controller));
-       // this.movingCross=new Thread(new MovingCross(controller));
-        //this.movingLine.start();
+        this.movingLine=new Thread(new MovingLine(controller));
+        this.movingCross=new Thread(new MovingCross(controller));
+        this.movingLine.start();
         this.movingCircle.start();
-        //this.movingCross.start();
+        this.movingCross.start();
 
     }
 
-    public int getDegree(int quart){
-        int d=controller.getGameManager().circle.getFirstDegree();
+    public int getDegree(int quart,Circle c){
+        int d=c.getFirstDegree();
         switch (quart){
             case 1:
-                d= controller.getGameManager().getCircle().getFirstDegree();
+                d= c.getFirstDegree();
                 break;
             case 2:
-                d= controller.getGameManager().getCircle().getSecondDegree();
+                d= c.getSecondDegree();
                 break;
             case 3:
-                d= controller.getGameManager().getCircle().getThirdDegree();
+                d= c.getThirdDegree();
                 break;
             case 4:
-                d= controller.getGameManager().getCircle().getFourthDegree();
+                d= c.getFourthDegree();
                 break;
 
         }
         return d;
     }
 
-    public boolean checkColissionCircleUp(int firstQuart,int secondQuart,int thirdQuart){
+    public boolean checkColissionCircleUp(int firstQuart,int secondQuart,int thirdQuart,Circle circle){
         int quart1,quart2,quart3;
-        quart1=getDegree(firstQuart);
-        quart2=getDegree(secondQuart);
-        quart3=getDegree(thirdQuart);
+        quart1=getDegree(firstQuart,circle);
+        quart2=getDegree(secondQuart,circle);
+        quart3=getDegree(thirdQuart,circle);
 
 
         //0 || 90
-        if (this.controller.getGameManager().getOrdonnesJoeur() < this.controller.getGameManager().getCircle().getCircleY()
-                && (this.ordonnesJoeur + 20 > this.getCircle().getCircleY())
+        if (this.controller.getGameManager().getOrdonnesJoeur() < circle.getCircleY()
+                && (this.ordonnesJoeur + 20 > circle.getCircleY())
                 &&( (quart1 > 0 && quart1 <90)
                 || (quart2 > 0 && quart2 <90)
                 || (quart3 < 90 && quart3>0 ))
@@ -239,16 +246,15 @@ public class GameManager {
         }
     }
 
-    public boolean checkColissionCircleBottom(int firstQuart,int secondQuart,int thirdQuart){
+    public boolean checkColissionCircleBottom(int firstQuart,int secondQuart,int thirdQuart,Circle circle){
         int quart1,quart2,quart3;
-        quart1=getDegree(firstQuart);
-        quart2=getDegree(secondQuart);
-        quart3=getDegree(thirdQuart);
+        quart1=getDegree(firstQuart,circle);
+        quart2=getDegree(secondQuart,circle);
+        quart3=getDegree(thirdQuart,circle);
 
-        if (this.controller.getGameManager().getOrdonnesJoeur() - 115 < this.controller.getGameManager().getCircle().getMaskY()
+        if (this.controller.getGameManager().getOrdonnesJoeur() - 115 < circle.getMaskY()
                 //collision avec la partie interne  hute du plus petit double cercle
-                && this.controller.getGameManager().getOrdonnesJoeur() - 95 > this.controller.getGameManager()
-                .getCircle().getMaskY()
+                && this.controller.getGameManager().getOrdonnesJoeur() - 95 > circle.getMaskY()
 
                 // si le degre du quart de cercle est superieur a 180 et inferieur a 270
                 && ((quart1 > 180 && quart1<270)
@@ -264,11 +270,11 @@ public class GameManager {
     }
 
 
-    public boolean checkColissionLine(){
+    public boolean checkColissionLine(Line line){
         int couleurCode;
         if(couleur == Constantes.COLOR_TURQUOISE){
             couleurCode=1;
-        }else if(couleur == Constantes.COLOR_VIOLET){
+        }else if(couleur == Constantes.COLOR_YELLOW){
             couleurCode=2;
         }else if(couleur == Constantes.COLOR_PINK){
             couleurCode=3;
@@ -276,37 +282,64 @@ public class GameManager {
             couleurCode = 4;
         }
         boolean colission=false;
+        int d1=0;
+        int d2=0;
+        int d3=0;
+        //turquoise
         switch (couleurCode){
-
             case 1:
-                if (this.controller.getGameManager().getOrdonnesJoeur() <= this.controller.getGameManager().line.getSquareY() + 5
-                        && this.controller.getGameManager().getOrdonnesJoeur() >= this.controller.getGameManager().line.getSquareY() - 15
-                        && this.controller.getGameManager().getAbsiceJoueur() >= this.controller.getGameManager().line.getSecondRectangleX()
-                        && this.controller.getGameManager().getAbsiceJoueur() <= this.controller.getGameManager().line.getSecondRectangleX() + 95) {
-                        System.out.println("colision ligne");
-                        return true;
-                    //stopper_tout();
-                }
-                if (this.controller.getGameManager().getOrdonnesJoeur() <= this.controller.getGameManager().line.getSquareY() + 5
-                        && this.controller.getGameManager().getOrdonnesJoeur() >= this.controller.getGameManager().line.getSquareY() - 15
-                        && this.controller.getGameManager().getAbsiceJoueur() >= this.controller.getGameManager().line.getThirdRectangleX()
-                        && this.controller.getGameManager().getAbsiceJoueur() <= this.controller.getGameManager().line.getThirdRectangleX() + 95) {
-                        System.out.println("colision ligne");
-                        return true;
-                }
-                if (this.controller.getGameManager().getOrdonnesJoeur() <= this.controller.getGameManager().line.getSquareY() + 5
-                        && this.controller.getGameManager().getOrdonnesJoeur() >= this.controller.getGameManager().line.getSquareY() - 15
-                        && this.controller.getGameManager().getAbsiceJoueur() >= this.controller.getGameManager().line.getFourthRectangleX()
-                        && this.controller.getGameManager().getAbsiceJoueur() <= this.controller.getGameManager().line.getFourthRectangleX() + 95) {
-                        System.out.println("colision ligne");
-                        return true;
-                }
+                d1=line.getSecondRectangleX();
+                d2=line.getThirdRectangleX();
+                d3=line.getFourthRectangleX();
 
+                break;
+            case 2:
+                d1=line.getFirstRectangleX();
+                d2=line.getFourthRectangleX();
+                d3=line.getThirdRectangleX();
+
+                break;
+            case 3:
+                d1=line.getFirstRectangleX();
+                d2=line.getSecondRectangleX();
+                d3=line.getFourthRectangleX();
+                break;
+            case 4:
+                d1=line.getFirstRectangleX();
+                d2=line.getSecondRectangleX();
+                d3=line.getThirdRectangleX();
 
                 break;
 
         }
-        return true;
+
+        if (this.controller.getGameManager().getOrdonnesJoeur() <= line.getSquareY() + 5
+                && this.controller.getGameManager().getOrdonnesJoeur() >= line.getSquareY() - 15
+                && this.controller.getGameManager().getAbsiceJoueur() >= d1
+                && this.controller.getGameManager().getAbsiceJoueur() <= d1 + 95) {
+            System.out.println("colision ligne");
+            return true;
+            //stopper_tout();
+        }
+        if (this.controller.getGameManager().getOrdonnesJoeur() <= line.getSquareY() + 5
+                && this.controller.getGameManager().getOrdonnesJoeur() >= line.getSquareY() - 15
+                && this.controller.getGameManager().getAbsiceJoueur() >= d2
+                && this.controller.getGameManager().getAbsiceJoueur() <= d2 + 95) {
+            System.out.println("colision ligne");
+            return true;
+        }
+        if (this.controller.getGameManager().getOrdonnesJoeur() <= line.getSquareY() + 5
+                && this.controller.getGameManager().getOrdonnesJoeur() >= line.getSquareY() - 15
+                && this.controller.getGameManager().getAbsiceJoueur() >=d3
+                && this.controller.getGameManager().getAbsiceJoueur() <=d3 + 95) {
+            System.out.println("colision ligne");
+            return true;
+        }
+
+
+     return false;
+
+
     }
 
     public void checkColission() {
@@ -322,89 +355,83 @@ public class GameManager {
             couleurCode = 4;
         }
         boolean colission=false;
+        int d1check=1;
+        int d2check=2;
+        int d3check=3;
         switch (couleurCode){
             case 1:
-
-                checkColissionMultiColorBall();
+                d1check=2;
+                d2check=3;
+                d3check=4;
                 break;
             case 2:
-                colission=checkColissionCircleBottom(1,3,4)
-                || checkColissionCircleUp(1,3,4);
-                if(colission){
-                    System.out.println("colission");
-                }else {
-                    System.out.println("aucune colision");
-                }
-                break;
-            case 3:
-                colission=checkColissionCircleBottom(2,1,4)
-                || checkColissionCircleUp(2,1,4);
-                if(colission){
-                    //System.out.println("colission");
-                }else {
-                    //System.out.println("aucune colision");
-                }
+                d1check=1;
+                d2check=3;
+                d3check=4;
                 break;
             case 4:
-                colission=checkColissionCircleBottom(2,3,1)
-                || checkColissionCircleUp(2,3,1);
-                if(colission){
-                    System.out.println("colission");
-                }else {
-                    System.out.println("aucune colision");
-                }
+                d1check=1;
+                d2check=2;
+                d3check=3;
                 break;
-
-
+            case 3:
+                d1check=1;
+                d2check=2;
+                d3check=4;
         }
 
-       // switch (this.couleur) {
+        for(Obstacle obstacle:obstacleList){
+            if(obstacle instanceof Circle){
 
-         //   case Constantes.COLOR_TURQUOISE:
-                // double cercle
-                //  colision avec la partie externe haute du plus grand double cercle
-             /*   if (this.controller.getGameManager().getOrdonnesJoeur() - 115 < this.controller.getGameManager().getCircle().getCircleY()
-                        //collision avec la partie interne  hute du plus petit double cercle
-                        && this.controller.getGameManager().getOrdonnesJoeur() - 95 > this.controller.getGameManager()
-                        ()
-
-                        // si le degre du quart de cercle est superieur a 180 et inferieur a 270
-                        && ((this.getPan().getDegreDeuxiemeQuartPremierDoubleCercle() > 180
-                        && this.getPan().getDegreDeuxiemeQuartPremierDoubleCercle() < 270)
-                        || (this.getPan().getDegreTroisiemeQuartPremierDoubleCercle() > 180
-                        && this.getPan().getDegreTroisiemeQuartPremierDoubleCercle() < 270)
-                        || (this.getPan().getDegreQuatriemeQuartPremierDoubleCercle() > 180
-                        && this.getPan().getDegreQuatriemeQuartPremierDoubleCercle() < 270))) {
-                    System.out.println("colision bas du double cercle");
-                    stopper_tout();
-
-                }
-
-              */
-
-    }
+                colission=checkColissionCircleBottom(d1check,d2check,d3check,(Circle) obstacle)
+                        || checkColissionCircleUp(d1check,d2check,d3check,(Circle) obstacle);
 
 
-    public  void checkColissionMultiColorBall(){
+            }else if(obstacle instanceof Line){
+                checkColissionLine((Line) obstacle);
+            }else if(obstacle instanceof Cross){
+                checkColissionCross((Cross) obstacle);
 
-        if(multiColorBall.getOrdonneBouleMulti()>= this.ordonnesJoeur-10
-        && multiColorBall.getOrdonneBouleMulti()<= this.ordonnesJoeur+10){
-            int couleurCode;
-            if(couleur == Constantes.COLOR_TURQUOISE){
-               couleur=Constantes.COLOR_VIOLET;
-            }else if(couleur == Constantes.COLOR_VIOLET){
-                couleur=Constantes.COLOR_PINK;
-            }else if(couleur == Constantes.COLOR_PINK){
-                 couleur=Constantes.COLOR_YELLOW;
-            }else {
-                couleur=Constantes.COLOR_TURQUOISE;
+            }else if (obstacle instanceof MultiColorBall) {
+                checkColissionMultiColorBall((MultiColorBall)obstacle);
             }
         }
 
+
+
     }
 
 
-    public boolean checkColissionCross(){
+    public  void checkColissionMultiColorBall(MultiColorBall multiColorBall){
+        boolean collision=false;
+        if(multiColorBall.isVisible()) {
+            if (multiColorBall.getOrdonneBouleMulti() >= this.ordonnesJoeur - 10
+                    && multiColorBall.getOrdonneBouleMulti() <= this.ordonnesJoeur + 10) {
+                int couleurCode;
+                if (couleur == Constantes.COLOR_TURQUOISE) {
+                    couleur = Constantes.COLOR_VIOLET;
+                    collision=true;
+                } else if (couleur == Constantes.COLOR_VIOLET) {
+                    couleur = Constantes.COLOR_PINK;
+                    collision=true;
+                } else if (couleur == Constantes.COLOR_PINK) {
+                    couleur = Constantes.COLOR_YELLOW;
+                    collision=true;
+                } else {
+                    couleur = Constantes.COLOR_TURQUOISE;
+                    collision=true;
+                }
+            }
+        }
+        if(collision){
+            System.out.println("colission multi color ball");
+                 multiColorBall.setVisible(false);
+        }
+
+    }
+
+
+    public boolean checkColissionCross(Cross cross){
         int couleurCode;
         if(couleur == Constantes.COLOR_TURQUOISE){
             couleurCode=1;
@@ -416,23 +443,79 @@ public class GameManager {
             couleurCode = 4;
         }
         boolean colission=false;
+        int d1=0,d2=0,d3=0;
+        switch (couleurCode){
+            //1=3
+            case 1:
+                d1=cross.getDegre2();
+                d2=cross.getDegre1();
+                d3=cross.getDegre4();
+                break;
+            case 2:
+                d1=cross.getDegre1();
+                d2=cross.getDegre4();
+                d3=cross.getDegre3();
+                break;
+            case 3:
+                d1=cross.getDegre2();
+                d2=cross.getDegre3();
+                d3=cross.getDegre4();
+                break;
+            case 4:
+                d1=cross.getDegre1();
+                d2=cross.getDegre2();
+                d3=cross.getDegre3();
+                break;
+
+        }
 
         switch (couleurCode) {
             case 1:
-                int d2 = cross.getDegre2();
-                int d3 = cross.getDegre1();
-                int d4 = cross.getDegre4();
+
                 if (((d2 > 70 && d2 < 130))
                         && this.ordonnesJoeur>= cross.getCrossY()-20 && this.ordonnesJoeur<=cross.getCrossY()+20) {
-                    System.out.println("colission D2");
                 }
                 if (((d3 > 70 && d3 < 130))
                         && this.ordonnesJoeur>= cross.getCrossY()-20 && this.ordonnesJoeur<=cross.getCrossY()+20) {
-                    System.out.println("colission D3");
                 }
-                if (( (d4 > 70 && d4 < 130))
+                if (( (d1 > 70 && d1 < 130))
                  && this.ordonnesJoeur>= cross.getCrossY()-20 && this.ordonnesJoeur<=cross.getCrossY()+20) {
-                    System.out.println("colission D4");
+                }
+                break;
+            case 2:
+
+                if (((d2 > 70 && d2 < 130))
+                        && this.ordonnesJoeur>= cross.getCrossY()-20 && this.ordonnesJoeur<=cross.getCrossY()+20) {
+                }
+                if (((d3 > 70 && d3 < 130))
+                        && this.ordonnesJoeur>= cross.getCrossY()-20 && this.ordonnesJoeur<=cross.getCrossY()+20) {
+                }
+                if (( (d1 > 70 && d1 < 130))
+                        && this.ordonnesJoeur>= cross.getCrossY()-20 && this.ordonnesJoeur<=cross.getCrossY()+20) {
+                }
+                break;
+            case 3:
+
+                if (((d2 > 70 && d2 < 130))
+                        && this.ordonnesJoeur>= cross.getCrossY()-20 && this.ordonnesJoeur<=cross.getCrossY()+20) {
+                }
+                if (((d3 > 70 && d3 < 130))
+                        && this.ordonnesJoeur>= cross.getCrossY()-20 && this.ordonnesJoeur<=cross.getCrossY()+20) {
+                }
+                if (( (d1 > 70 && d1 < 130))
+                        && this.ordonnesJoeur>= cross.getCrossY()-20 && this.ordonnesJoeur<=cross.getCrossY()+20) {
+                }
+                break;
+            case 4:
+
+                if (((d2 > 70 && d2 < 130))
+                        && this.ordonnesJoeur>= cross.getCrossY()-20 && this.ordonnesJoeur<=cross.getCrossY()+20) {
+                }
+                if (((d3 > 70 && d3 < 130))
+                        && this.ordonnesJoeur>= cross.getCrossY()-20 && this.ordonnesJoeur<=cross.getCrossY()+20) {
+                }
+                if (( (d1 > 70 && d1 < 130))
+                        && this.ordonnesJoeur>= cross.getCrossY()-20 && this.ordonnesJoeur<=cross.getCrossY()+20) {
                 }
                 break;
         }
@@ -440,5 +523,76 @@ public class GameManager {
 
 
         return false;
+    }
+
+    public void obstacleGoesDown() {
+        lineGoesDown();
+        crossGoesDown();
+        circleGoesDown();
+        multiColorBallGoesDown();
+
+
+
+    }
+
+    private void multiColorBallGoesDown() {
+        int j=5;
+        int y0;
+        for(Obstacle obstacle:obstacleList){
+            if(obstacle instanceof MultiColorBall){
+                MultiColorBall multiColorBall=(MultiColorBall) obstacle;
+                y0=multiColorBall.getOrdonneBouleMulti();
+                multiColorBall.setOrdonneBouleMulti(y0+j);
+
+            }
+        }
+    }
+
+    private void circleGoesDown() {
+        int j=5;
+        int y0;
+        int y1;
+        for(Obstacle obstacle:obstacleList){
+            if(obstacle instanceof Circle){
+                Circle circle=(Circle) obstacle;
+                y0=circle.getCircleY();
+                circle.setCircleY(y0+j);
+                y1=circle.getMaskY();
+                circle.setMaskY(y1+j);
+
+
+            }
+        }
+    }
+
+    private void crossGoesDown() {
+
+        int j=5;
+        int y0;
+        int y1;
+        for(Obstacle obstacle:obstacleList){
+            if(obstacle instanceof Cross){
+                Cross cross=(Cross) obstacle;
+                y0=cross.getCrossY();
+                cross.setCrossY(y0+j);
+
+            }
+        }
+
+    }
+
+    private void lineGoesDown() {
+
+
+        int j=5;
+        int y0;
+        for(Obstacle obstacle:obstacleList){
+            if(obstacle instanceof Line){
+                Line line=(Line) obstacle;
+                y0=line.getSquareY();
+                line.setSquareY(y0+j);
+
+            }
+        }
     }
 }

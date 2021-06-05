@@ -1,6 +1,6 @@
 package model.obstacles;
 
-public class Circle extends Obstacle{
+public class Circle implements Obstacle{
 
 
     private int circleX;

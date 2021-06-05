@@ -1,6 +1,6 @@
 package model.obstacles;
 
-public class Line extends Obstacle{
+public class Line implements Obstacle{
 
     private int firstRectangleX;
     private int secondRectangleX;

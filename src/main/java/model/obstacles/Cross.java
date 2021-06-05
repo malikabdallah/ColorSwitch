@@ -1,24 +1,6 @@
 package model.obstacles;
 
-public class Cross extends Obstacle{
-/*
-    private int posCrX1 = 80;
-    private int posCrY1 = - 1070;
-    private int degCr1 = 45;
-
-    private int posCrX2 = 80;
-    private int posCrY2 = - 1070;
-    private int degCr2 = 135;
-
-    private int posCrX3 = 80;
-    private int posCrY3 = - 1070;
-    private int degCr3 = 225;
-
-    private int posCrX4 = 80;
-    private int posCrY4 = - 1070;
-    private int degCr4 = 315;
- */
-
+public class Cross implements Obstacle{
 
     private int crossX=80;
     private int crossY=300;

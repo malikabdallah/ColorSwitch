@@ -32,18 +32,24 @@ public class JumpingBall implements Runnable {
         int x = controller.getGameManager().getAbsiceJoueur(), y = controller.getGameManager().getOrdonnesJoeur();
 
         // boucle pour cr�er un effet pousser la balle vers l'avant
-        for (int i = 2; i < plafond; i++) {
+        for (int i = 2; i < 9; i++) {
             y = y - i;
 
             // la balle ne doit pas depass� cette hauteur
             // pour laisser la balle au milieu vertical du panneau
-            if (y > 120) {
+            if (y > 200) {
                 controller.getGameManager().setAbsiceJoueur(x);
                 ;
                 controller.getGameManager().setOrdonnesJoeur(y);
 
                 controller.getGameManager().checkColission();
                 ;
+            }
+
+            if( y < 250 ){
+                controller.getGameManager().obstacleGoesDown();
+
+
             }
         }
 

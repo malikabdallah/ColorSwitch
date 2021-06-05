@@ -2,16 +2,14 @@ package view;
 
 import constantes.Constantes;
 import controller.Controller;
-import model.obstacles.Circle;
-import model.obstacles.Cross;
-import model.obstacles.Line;
-import model.obstacles.MultiColorBall;
+import model.obstacles.*;
 import model.threads.FallingBall;
 import model.threads.JumpingBall;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.util.List;
 
 public class PanelGame extends JPanel implements Drawer {
 
@@ -37,11 +35,21 @@ public class PanelGame extends JPanel implements Drawer {
 
         g.setColor(Constantes.COLOR_BLACK);
         g.fillRect(0, 0, this.getWidth(), this.getHeight());
+        List<Obstacle> obstacleList=controller.getGameManager().obstacleList;
+        for(Obstacle obstacle:obstacleList){
+            if(obstacle instanceof MultiColorBall){
+                this.drawMultiColorBall(g,(MultiColorBall) obstacle);
 
-        //this.drawLineObstacle(g);
-        //this.drawCircleObstacle(g,controller.getGameManager().getCircle());
-        //this.drawCrossObsacle(g,controller.getGameManager().getCross());
-        this.drawMultiColorBall(g,controller.getGameManager().multiColorBall);
+            }else if(obstacle instanceof Cross){
+                this.drawCrossObsacle(g,(Cross) obstacle);
+
+            }else if( obstacle instanceof Line){
+                this.drawLineObstacle(g,(Line)obstacle);
+
+            }else if(obstacle instanceof  Circle){
+                this.drawCircleObstacle(g,(Circle)obstacle);
+            }
+        }
         // On red�finit une couleur pour le rond
         g.setColor(this.controller.getGameManager().getCouleur());
         // On le dessine aux coordonn�es souhait�es
@@ -50,24 +58,6 @@ public class PanelGame extends JPanel implements Drawer {
 
     }
 
-    private void drawLineObstacle(Graphics g) {
-
-        //on dessine la premiere ligne color de la double ligne
-
-        g.setColor(Constantes.COLOR_TURQUOISE);
-        g.fill3DRect(this.controller.getGameManager().getLine().getFirstRectangleX(),
-                controller.getGameManager().getLine().getSquareY(), 95, 10, true);
-        g.setColor(Constantes.COLOR_YELLOW);
-        g.fill3DRect(this.controller.getGameManager().getLine().getSecondRectangleX(),
-                controller.getGameManager().getLine().getSquareY(), 95, 10, true);
-        g.setColor(Constantes.COLOR_PINK);
-        g.fill3DRect(this.controller.getGameManager().getLine().getThirdRectangleX(),
-                controller.getGameManager().getLine().getSquareY(), 95, 10, true);
-        g.setColor(Constantes.COLOR_VIOLET);
-        g.fill3DRect(this.controller.getGameManager().getLine().getFourthRectangleX(),
-                controller.getGameManager().getLine().getSquareY(), 95, 10, true);
-
-    }
 
 
 
@@ -95,27 +85,40 @@ public class PanelGame extends JPanel implements Drawer {
 
     @Override
     public void drawLineObstacle(Graphics g, Line l) {
+        g.setColor(Constantes.COLOR_TURQUOISE);
+        g.fill3DRect(l.getFirstRectangleX(),
+               l.getSquareY(), 95, 10, true);
+        g.setColor(Constantes.COLOR_YELLOW);
+        g.fill3DRect(l.getSecondRectangleX(),
+                l.getSquareY(), 95, 10, true);
+        g.setColor(Constantes.COLOR_PINK);
+        g.fill3DRect(l.getThirdRectangleX(),
+               l.getSquareY(), 95, 10, true);
+        g.setColor(Constantes.COLOR_VIOLET);
+        g.fill3DRect(l.getFourthRectangleX(),
+                l.getSquareY(), 95, 10, true);
 
     }
 
     public void drawMultiColorBall(Graphics g, MultiColorBall ball){
-        g.setColor(Constantes.COLOR_TURQUOISE);
-        int x=ball.getAbsiceBouleMulti();
-        int y=ball.getOrdonneBouleMulti();
+        if(ball.isVisible()) {
+            g.setColor(Constantes.COLOR_TURQUOISE);
+            int x = ball.getAbsiceBouleMulti();
+            int y = ball.getOrdonneBouleMulti();
 
-        g.fillArc(x, y, 20, 20, 0,90 );
+            g.fillArc(x, y, 20, 20, 0, 90);
 
-        g.setColor(Constantes.COLOR_YELLOW);
-        g.fillArc(x, y, 20,20,90, 90);
+            g.setColor(Constantes.COLOR_YELLOW);
+            g.fillArc(x, y, 20, 20, 90, 90);
 
-        g.setColor(Constantes.COLOR_PINK);
-        g.fillArc(x, y, 20, 20, 180, 90);
+            g.setColor(Constantes.COLOR_PINK);
+            g.fillArc(x, y, 20, 20, 180, 90);
 
-        g.setColor(Constantes.COLOR_VIOLET);
-        g.fillArc(x,y, 20, 20, 270, 90);
+            g.setColor(Constantes.COLOR_VIOLET);
+            g.fillArc(x, y, 20, 20, 270, 90);
 
 
-
+        }
     }
 
     @Override
@@ -138,27 +141,7 @@ public class PanelGame extends JPanel implements Drawer {
 
 
 
-/*
-        g.setColor(Constantes.COLOR_TURQUOISE);
-        int x=controller.getGameManager().multiColorBall.getAbsiceBouleMulti();
-        int y=controller.getGameManager().multiColorBall.getOrdonneBouleMulti();
-        int d1=controller.getGameManager().multiColorBall.getDegrePremierQuartBouleMultiCouleur();
-        int d2=controller.getGameManager().multiColorBall.getDegreDeuxiemeQuartBouleMultiCouleur();
-        int d3=controller.getGameManager().multiColorBall.getDegreTroisiemeQuartBouleMultiCouleur();
-        int d4=controller.getGameManager().multiColorBall.getDegreQuatriemeQuartBouleMultiCouleur();
-        g.fillArc(x, y, 20, 20, 0,90 );
 
-        g.setColor(Constantes.COLOR_YELLOW);
-        g.fillArc(x, y, 20,20,90, 90);
-
-        g.setColor(Constantes.COLOR_PINK);
-        g.fillArc(x, y, 20, 20, 180, 90);
-
-        g.setColor(Constantes.COLOR_VIOLET);
-        g.fillArc(x,y, 20, 20, 270, 90);
-
-
-*/
 
     }
 

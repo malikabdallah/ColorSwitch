@@ -1,7 +1,17 @@
 package model.obstacles;
 
-public class MultiColorBall extends Obstacle{
+public class MultiColorBall implements Obstacle{
 
+
+    public  boolean visible;
+
+    public boolean isVisible() {
+        return visible;
+    }
+
+    public void setVisible(boolean visible) {
+        this.visible = visible;
+    }
 
     private int degrePremierQuartBouleMultiCouleur = 0;
 
@@ -18,7 +28,9 @@ public class MultiColorBall extends Obstacle{
 
     private int ordonneBouleMulti;
 
-    public MultiColorBall(int degrePremierQuartBouleMultiCouleur, int degreDeuxiemeQuartBouleMultiCouleur, int degreTroisiemeQuartBouleMultiCouleur, int degreQuatriemeQuartBouleMultiCouleur, int absiceBouleMulti, int ordonneBouleMulti)
+    public MultiColorBall(int degrePremierQuartBouleMultiCouleur, int degreDeuxiemeQuartBouleMultiCouleur, int degreTroisiemeQuartBouleMultiCouleur, int degreQuatriemeQuartBouleMultiCouleur,
+                          int absiceBouleMulti, int ordonneBouleMulti
+    ,boolean visible)
     {
         this.degrePremierQuartBouleMultiCouleur = degrePremierQuartBouleMultiCouleur;
         this.degreDeuxiemeQuartBouleMultiCouleur = degreDeuxiemeQuartBouleMultiCouleur;
@@ -26,6 +38,7 @@ public class MultiColorBall extends Obstacle{
         this.degreQuatriemeQuartBouleMultiCouleur = degreQuatriemeQuartBouleMultiCouleur;
         this.absiceBouleMulti = absiceBouleMulti;
         this.ordonneBouleMulti = ordonneBouleMulti;
+        this.visible=visible;
     }
 
     public int getAbsiceBouleMulti() {
