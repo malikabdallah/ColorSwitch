@@ -39,7 +39,7 @@ public class MovingCircle implements Runnable{
             int d4 = circle.getFourthDegree();
             //recuperation  du carree mask qui creer l espace vide a l interieur du caree
             //int d5 = pan.getDegCarreMask();
-            while (controller.getGameManager().getMovingCircle().isAlive()) {
+            while (controller.getGameManager().isRun()) {
                 //on increment les degrer des triangles qui composent le career
                 d1 = d1 + a;
                 d2 = d2 + a;

@@ -209,6 +209,8 @@ public class GameManager {
     }
 
     public void  checkColissionCircleUp(int firstQuart,int secondQuart,int thirdQuart,Circle circle){
+
+
         int quart1,quart2,quart3;
         quart1=getDegree(firstQuart,circle);
         quart2=getDegree(secondQuart,circle);
@@ -239,9 +241,26 @@ public class GameManager {
         quart2=getDegree(secondQuart,circle);
         quart3=getDegree(thirdQuart,circle);
 
-        if (this.controller.getGameManager().getOrdonnesJoeur() - 115 < circle.getMaskY()
+
+        int cbb=this.controller.getGameManager().getOrdonnesJoeur()-115;
+        int cbt=this.controller.getGameManager().getOrdonnesJoeur()-95;
+        System.out.println(cbb+" "+this.getOrdonnesJoeur()+" "+cbt);
+
+        if(circle.getCircleY()>=cbb && circle.getCircleY()
+        <=cbt){
+            System.out.println("ordonnes concorde");
+            if(((quart1 > 180 && quart1<270)
+
+                    || (quart2 > 180 && quart2<270)
+                    || (quart3>180 && quart3<270)
+            )){
+                losing();
+            }
+        }
+        /*
+        if (circle.getMaskY()>=this.controller.getGameManager().getOrdonnesJoeur() - 115
                 //collision avec la partie interne  hute du plus petit double cercle
-                && this.controller.getGameManager().getOrdonnesJoeur() - 95 > circle.getMaskY()
+                && circle.getMaskY() <=this.controller.getGameManager().getOrdonnesJoeur() - 95
 
                 // si le degre du quart de cercle est superieur a 180 et inferieur a 270
                 && ((quart1 > 180 && quart1<270)
@@ -249,11 +268,12 @@ public class GameManager {
                 || (quart2 > 180 && quart2<270)
                 || (quart3>180 && quart3<270)
         )) {
+            System.out.println("colission up");
             losing();
         }else{
 
         }
-
+        */
     }
 
 
@@ -584,13 +604,13 @@ public class GameManager {
 
 
 
-    private void losing() {
-
+    public void losing() {
+        this.run=false;
         this.movingCross.stop();
         this.jumpingBall.stop();
         this.fallingBall.stop();
         this.movingCircle.stop();
         this.movingLine.stop();
-        this.run=false;
+
     }
 }

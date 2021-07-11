@@ -1,5 +1,6 @@
 package controller;
 
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.AudioClip;
 import model.GameManager;
@@ -19,8 +20,8 @@ public class Controller implements MouseListener, KeyListener {
     PanelGame panel;
     GameManager gameManager;
     public Controller() {
-        AudioClip mApplause = new AudioClip(this.getClass().getResource("/colorswitch.mp3").toExternalForm());
-        mApplause.play();
+       // AudioClip mApplause = new AudioClip(this.getClass().getResource("/colorswitch.mp3").toExternalForm());
+       // mApplause.play();
         panel=new PanelGame(this);
 
         gameManager=new GameManager(this);
@@ -45,10 +46,16 @@ public class Controller implements MouseListener, KeyListener {
     public void keyPressed(KeyEvent e) {
 
 
-        if (gameManager.isRun()) {
+        if(e.getKeyCode()== 32) {
+            if (gameManager.isRun()) {
 
-            panel.monter();
-            //gameManager.startJumpingBall();
+                panel.monter();
+                //gameManager.startJumpingBall();
+            }
+        }
+
+        if(e.getKeyCode()==65){
+            gameManager.losing();
         }
 
     }
