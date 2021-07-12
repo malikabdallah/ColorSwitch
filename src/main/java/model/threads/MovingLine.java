@@ -29,7 +29,7 @@ public class MovingLine implements Runnable{
             int i2 =line.getSecondRectangleX();
             int i3 = line.getThirdRectangleX();
             int i4 = line.getFourthRectangleX();
-            while (controller.getGameManager().getMovingLine().isAlive()) {
+            while (controller.getGameManager().isRun()) {
                 //System.out.println(exe.isDefileLigne());
                 if (i4 == D1)
                     i4 = D2;

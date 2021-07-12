@@ -59,7 +59,7 @@ public class GameManager {
 
          obstacleList.add(new Circle(90,-300,0,90,180,270,
                 150,-370));
-            obstacleList.add(new Cross(90,100,45,135,225,315));
+            obstacleList.add(new Cross(80,100,45,135,225,315));
 
             obstacleList.add(new Line(0,95,190,285,250));
 
@@ -437,7 +437,7 @@ public class GameManager {
     }
 
 
-    public boolean checkColissionCross(Cross cross){
+    public  void checkColissionCross(Cross cross){
         int couleurCode;
         if(couleur == Constantes.COLOR_TURQUOISE){
             couleurCode=1;
@@ -454,7 +454,7 @@ public class GameManager {
             //1=3
             case 1:
                 d1=cross.getDegre2();
-                d2=cross.getDegre1();
+                d2=cross.getDegre3();
                 d3=cross.getDegre4();
                 break;
             case 2:
@@ -464,7 +464,7 @@ public class GameManager {
                 break;
             case 3:
                 d1=cross.getDegre2();
-                d2=cross.getDegre3();
+                d2=cross.getDegre1();
                 d3=cross.getDegre4();
                 break;
             case 4:
@@ -475,60 +475,125 @@ public class GameManager {
 
         }
 
+
+        System.out.println(d1+" "+d2+" "+d3);
+        System.out.println(ordonnesJoeur+" "+cross.getCrossY());
+        if ((d1 <= 270 && d1 >= 255
+                && ordonnesJoeur <= cross.getCrossY() + 5
+                && ordonnesJoeur >= cross.getCrossY() - 5)) {
+            losing();
+        }
+
+        if(d2 <= 270 && d2 >= 255
+                        && ordonnesJoeur <= cross.getCrossY() + 5
+                        && ordonnesJoeur >= cross.getCrossY() - 5) {
+            losing();
+        }
+
+        if(d3<= 270 && d3>= 255
+                        && ordonnesJoeur <= cross.getCrossY() + 5
+                        && ordonnesJoeur >= cross.getCrossY() - 5) {
+
+            losing();
+        }
+        /*
         switch (couleurCode) {
             case 1:
 
                 if (((d2 > 70 && d2 < 130))
                         && this.ordonnesJoeur>= cross.getCrossY()-20 && this.ordonnesJoeur<=cross.getCrossY()+20) {
+                        colission=true;
                 }
                 if (((d3 > 70 && d3 < 130))
                         && this.ordonnesJoeur>= cross.getCrossY()-20 && this.ordonnesJoeur<=cross.getCrossY()+20) {
+                    colission=true;
+
                 }
                 if (( (d1 > 70 && d1 < 130))
                  && this.ordonnesJoeur>= cross.getCrossY()-20 && this.ordonnesJoeur<=cross.getCrossY()+20) {
+                    colission=true;
+
+                }
+
+
+                if ((d1 <= 265 && d1 >= 255
+                        && ordonnesJoeur <= cross.getCrossY() + 5
+                        && ordonnesJoeur >= cross.getCrossY() - 5) ||
+
+                        (d2 <= 265 && d2 >= 255
+                                && ordonnesJoeur <= cross.getCrossY() + 5
+                                && ordonnesJoeur >= cross.getCrossY() - 5)
+                        ||
+
+                        (d3<= 265 && d3>= 255
+                                && ordonnesJoeur <= cross.getCrossY() + 5
+                                && ordonnesJoeur >= cross.getCrossY() - 5)) {
+
+                   losing();
                 }
                 break;
             case 2:
 
                 if (((d2 > 70 && d2 < 130))
                         && this.ordonnesJoeur>= cross.getCrossY()-20 && this.ordonnesJoeur<=cross.getCrossY()+20) {
+                    colission=true;
+
                 }
                 if (((d3 > 70 && d3 < 130))
                         && this.ordonnesJoeur>= cross.getCrossY()-20 && this.ordonnesJoeur<=cross.getCrossY()+20) {
+                    colission=true;
+
                 }
                 if (( (d1 > 70 && d1 < 130))
                         && this.ordonnesJoeur>= cross.getCrossY()-20 && this.ordonnesJoeur<=cross.getCrossY()+20) {
+                    colission=true;
+
                 }
                 break;
             case 3:
 
                 if (((d2 > 70 && d2 < 130))
                         && this.ordonnesJoeur>= cross.getCrossY()-20 && this.ordonnesJoeur<=cross.getCrossY()+20) {
+                    colission=true;
+
                 }
                 if (((d3 > 70 && d3 < 130))
                         && this.ordonnesJoeur>= cross.getCrossY()-20 && this.ordonnesJoeur<=cross.getCrossY()+20) {
+                    colission=true;
+
                 }
                 if (( (d1 > 70 && d1 < 130))
                         && this.ordonnesJoeur>= cross.getCrossY()-20 && this.ordonnesJoeur<=cross.getCrossY()+20) {
+                    colission=true;
+
                 }
                 break;
             case 4:
 
                 if (((d2 > 70 && d2 < 130))
                         && this.ordonnesJoeur>= cross.getCrossY()-20 && this.ordonnesJoeur<=cross.getCrossY()+20) {
+                    colission=true;
+
                 }
                 if (((d3 > 70 && d3 < 130))
                         && this.ordonnesJoeur>= cross.getCrossY()-20 && this.ordonnesJoeur<=cross.getCrossY()+20) {
+                    colission=true;
+
                 }
                 if (( (d1 > 70 && d1 < 130))
                         && this.ordonnesJoeur>= cross.getCrossY()-20 && this.ordonnesJoeur<=cross.getCrossY()+20) {
+                    colission=true;
+
                 }
                 break;
-        }
+                }
+
+         */
 
 
 
-        return false;
+
+
     }
 
     public void obstacleGoesDown() {
