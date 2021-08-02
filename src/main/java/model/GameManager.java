@@ -244,11 +244,9 @@ public class GameManager {
 
         int cbb=this.controller.getGameManager().getOrdonnesJoeur()-115;
         int cbt=this.controller.getGameManager().getOrdonnesJoeur()-95;
-        System.out.println(cbb+" "+this.getOrdonnesJoeur()+" "+cbt);
 
         if(circle.getCircleY()>=cbb && circle.getCircleY()
         <=cbt){
-            System.out.println("ordonnes concorde");
             if(((quart1 > 180 && quart1<270)
 
                     || (quart2 > 180 && quart2<270)
@@ -324,7 +322,6 @@ public class GameManager {
                 && this.controller.getGameManager().getOrdonnesJoeur() >= line.getSquareY() - 15
                 && this.controller.getGameManager().getAbsiceJoueur() >= d1
                 && this.controller.getGameManager().getAbsiceJoueur() <= d1 + 95) {
-            System.out.println("colision ligne");
             losing();
             //stopper_tout();
         }
@@ -332,14 +329,12 @@ public class GameManager {
                 && this.controller.getGameManager().getOrdonnesJoeur() >= line.getSquareY() - 15
                 && this.controller.getGameManager().getAbsiceJoueur() >= d2
                 && this.controller.getGameManager().getAbsiceJoueur() <= d2 + 95) {
-            System.out.println("colision ligne");
             losing();
         }
         if (this.controller.getGameManager().getOrdonnesJoeur() <= line.getSquareY() + 5
                 && this.controller.getGameManager().getOrdonnesJoeur() >= line.getSquareY() - 15
                 && this.controller.getGameManager().getAbsiceJoueur() >=d3
                 && this.controller.getGameManager().getAbsiceJoueur() <=d3 + 95) {
-            System.out.println("colision ligne");
            losing();
         }
 
@@ -430,7 +425,6 @@ public class GameManager {
             }
         }
         if(collision){
-            System.out.println("colission multi color ball");
                  multiColorBall.setVisible(false);
         }
 
@@ -475,26 +469,20 @@ public class GameManager {
 
         }
 
+        if ((d1 <= 265 && d1 >= 255
+                && this.ordonnesJoeur <= cross.getCrossY() + 5
+                && ordonnesJoeur >= cross.getCrossY() - 5) ||
 
-        System.out.println(d1+" "+d2+" "+d3);
-        System.out.println(ordonnesJoeur+" "+cross.getCrossY());
-        if ((d1 <= 270 && d1 >= 255
-                && ordonnesJoeur <= cross.getCrossY() + 5
-                && ordonnesJoeur >= cross.getCrossY() - 5)) {
-            losing();
-        }
+                (d2 <= 265 && d2 >= 255
+                        && this.ordonnesJoeur <= cross.getCrossY() + 5
+                        && ordonnesJoeur >= cross.getCrossY() - 5)
+                ||
 
-        if(d2 <= 270 && d2 >= 255
+                (d3<= 265 && d3 >= 255
                         && ordonnesJoeur <= cross.getCrossY() + 5
-                        && ordonnesJoeur >= cross.getCrossY() - 5) {
-            losing();
-        }
+                        &&ordonnesJoeur >= cross.getCrossY() - 5)) {
 
-        if(d3<= 270 && d3>= 255
-                        && ordonnesJoeur <= cross.getCrossY() + 5
-                        && ordonnesJoeur >= cross.getCrossY() - 5) {
-
-            losing();
+            this.losing();
         }
         /*
         switch (couleurCode) {
@@ -613,7 +601,12 @@ public class GameManager {
             if(obstacle instanceof MultiColorBall){
                 MultiColorBall multiColorBall=(MultiColorBall) obstacle;
                 y0=multiColorBall.getOrdonneBouleMulti();
+                if(y0>controller.getPan().getHeight()){
+                    y0=-100;
+                }
+                multiColorBall.setVisible(true);
                 multiColorBall.setOrdonneBouleMulti(y0+j);
+
 
             }
         }
@@ -629,7 +622,13 @@ public class GameManager {
                 y0=circle.getCircleY();
                 circle.setCircleY(y0+j);
                 y1=circle.getMaskY();
-                circle.setMaskY(y1+j);
+                if(y0>controller.getPan().getHeight()){
+                    y0=-100;
+                }
+
+                circle.setCircleY(y0+j);
+
+                circle.setMaskY(y0-70);
 
 
             }
@@ -645,6 +644,12 @@ public class GameManager {
             if(obstacle instanceof Cross){
                 Cross cross=(Cross) obstacle;
                 y0=cross.getCrossY();
+                if(y0>controller.getPan().getHeight()){
+                    y0=-100;
+                }
+
+                cross.setCrossY(y0+j);
+
                 cross.setCrossY(y0+j);
 
             }
@@ -661,10 +666,15 @@ public class GameManager {
             if(obstacle instanceof Line){
                 Line line=(Line) obstacle;
                 y0=line.getSquareY();
+                if(y0>controller.getPan().getHeight()){
+                    y0=-100;
+                }
+
                 line.setSquareY(y0+j);
 
             }
         }
+
     }
 
 
