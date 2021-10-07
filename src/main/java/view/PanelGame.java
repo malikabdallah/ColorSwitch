@@ -17,6 +17,7 @@ public class PanelGame extends JPanel implements Drawer {
     private Controller controller;
 
     private void initLabelScore(){
+        label = new JLabel("Score: "+controller.getGameManager().getScore());
         label.setForeground(Constantes.COLOR_WHITE);
         this.add(label);
         Dimension size = label.getPreferredSize();
@@ -24,8 +25,9 @@ public class PanelGame extends JPanel implements Drawer {
     }
 
     public PanelGame(Controller controller) {
-       this.initLabelScore();
         this.controller=controller;
+        this.initLabelScore();
+
     }
 
     @Override
@@ -173,5 +175,15 @@ public class PanelGame extends JPanel implements Drawer {
         Shape transformed4 = transform4.createTransformedShape(rect4);
         g4.fill(transformed4);
 
+    }
+
+    public void updateScore() {
+        this.remove(label);
+        label = new JLabel("Score: "+controller.getGameManager().getScore());
+
+        label.setForeground(Constantes.COLOR_WHITE);
+        this.add(label);
+        Dimension size = label.getPreferredSize();
+        label.setBounds(5, 0, size.width, size.height);
     }
 }

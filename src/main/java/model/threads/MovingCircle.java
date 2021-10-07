@@ -25,6 +25,8 @@ public class MovingCircle implements Runnable{
     public void run() {
         moveCircle();
     }
+
+
     public void moveCircle() {
         System.out.println("move circle");
         List<Circle> circleList = controller.getGameManager().getsCircle();

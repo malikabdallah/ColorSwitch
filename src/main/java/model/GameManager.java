@@ -57,9 +57,9 @@ public class GameManager {
         this.run=true;
         this.controller=controller;
 
-         obstacleList.add(new Circle(90,-300,0,90,180,270,
-                150,-370));
-            obstacleList.add(new Cross(80,100,45,135,225,315));
+         obstacleList.add(new Circle(90,100,0,90,180,270,
+                150,30));
+            //obstacleList.add(new Cross(80,100,45,135,225,315));
 
             obstacleList.add(new Line(0,95,190,285,250));
 
@@ -80,6 +80,9 @@ public class GameManager {
     private Thread movingCircle;
     private Thread movingLine;
     private Thread movingCross;
+
+    private int score=0;
+
 
     public Thread getMovingCross() {
         return movingCross;
@@ -425,7 +428,11 @@ public class GameManager {
             }
         }
         if(collision){
+                 System.out.println("collision multi ball color");
                  multiColorBall.setVisible(false);
+                 score++;
+                 controller.updateScore();
+                 System.out.println("score "+score);
         }
 
     }
@@ -687,5 +694,10 @@ public class GameManager {
         this.movingCircle.stop();
         this.movingLine.stop();
 
+    }
+
+    public int getScore() {
+
+        return score;
     }
 }

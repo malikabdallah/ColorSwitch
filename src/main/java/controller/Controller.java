@@ -22,9 +22,10 @@ public class Controller implements MouseListener, KeyListener {
     public Controller() {
        // AudioClip mApplause = new AudioClip(this.getClass().getResource("/colorswitch.mp3").toExternalForm());
        // mApplause.play();
-        panel=new PanelGame(this);
 
         gameManager=new GameManager(this);
+        panel=new PanelGame(this);
+
         frame=new FrameGame(panel);
         gameManager.setController(this);
         gameManager.startFallingBall();
@@ -105,5 +106,9 @@ public class Controller implements MouseListener, KeyListener {
 
     public GameManager getGameManager() {
         return this.gameManager;
+    }
+
+    public void updateScore() {
+        this.panel.updateScore();
     }
 }
